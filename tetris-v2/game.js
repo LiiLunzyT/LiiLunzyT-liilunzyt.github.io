@@ -100,7 +100,7 @@ class Game {
 			this.brick.Pause();
 			this.isPause = true;
  			
-			this.ct.font = '30px Sans-serif';
+			this.ct.font = '30px press_start_2pregular';
 			this.ct.lineWidth = 8;
 			this.ct.strokeStyle = 'black';
 			this.ct.strokeText('GAME PAUSE', 50, 300);
@@ -123,7 +123,7 @@ class Game {
 	}
 
 	drawText(text, size, x, y, color = 'white', stroke = false, lWidth = 1) {
-		this.ct.font = size + "px Sans-serif";
+		this.ct.font = size + "px Lobster";
 		if(stroke) {
 			this.ct.lineWidth = lWidth;
 			this.ct.strokeStyle = 'black';
@@ -135,15 +135,15 @@ class Game {
 	}
 
 	drawIntro() {
-		this.ct.font = '20px Sans-serif';
-		this.ct.lineWidth = 8;
+		this.ct.font = '30px P2P';
+		this.ct.lineWidth = 10;
 		this.ct.strokeStyle = 'black';
-		this.ct.strokeText('PRESS SPACE TO START', 30, 300);
+		this.ct.strokeText('PRESS SPACE TO START', 130, 300);
 		this.ct.fillStyle = 'white';
-		this.ct.fillText('PRESS SPACE TO START', 30, 300);
+		this.ct.fillText('PRESS SPACE TO START', 130, 300);
 		this.ct.lineWidth = 1;
 	}
-	
+
 	drawBoard () {
 		// fill board color
 		this.ct.clearRect(0, 0, WIDTH, HEIGHT);
