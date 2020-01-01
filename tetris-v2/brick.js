@@ -24,6 +24,7 @@ class Brick {
 		this.type = [];
 		this.shape = [];
 		this.dir = 0;
+		this.isStop = false;
 
 		this.col = 3;
 		this.row = 1;
@@ -80,7 +81,8 @@ class Brick {
 	}
 
 	rotate() {
-		if(this.canRotate()) {
+		if(this.canRotate() && !this.isStop) {
+			sound[3].play();
 			this.dots = [];
 			this.dir++;
 			if(this.dir == 4) this.dir = 0;
@@ -91,7 +93,12 @@ class Brick {
 
 	updateShadow() {
 		this.shadow = this.shape;
-		let shapeY = 23;
+		let shapeY;
+		for(let shapeY = 23; shapeY > 4; shapeY--) {
+			this.dots.forEach( (dot) => {
+				
+			});
+		}
 	}
 
 	setFallInterval(delay) {
@@ -109,7 +116,8 @@ class Brick {
 	}
 
 	moveLeft() {
-		if( this.canMoveLeft() ) {
+		if( this.canMoveLeft() && !this.isStop) {
+			sound[2].play();
 			this.dots.forEach( (dot) => {
 				dot.moveLeft();
 			});
@@ -126,7 +134,8 @@ class Brick {
 	}
 
 	moveRight() {
-		if( this.canMoveRight() ) {
+		if( this.canMoveRight() && !this.isStop) {
+			sound[2].play();
 			this.dots.forEach( (dot) => {
 				dot.moveRight();
 			});
@@ -149,9 +158,11 @@ class Brick {
 				dot.fall();
 			}); 
 			this.row++;
+			this.game.board.checkBoard();
 			return true;
 		}
 		else {
+			sound[0].play();
 			clearInterval(this.fallInterval);
 			this.game.board.addBrick(this.dots);
 			this.init();
@@ -160,15 +171,17 @@ class Brick {
 	}
 
 	instantFall() {
-		while(this.fall());
+		if(this.fall() && !this.isStop) return this.instantFall();
 	}
 
 	Pause() {
 		clearInterval(this.fallInterval);
+		this.isStop = true;
 	}
 
 	unPause() {
 		this.setFallInterval(500);
+		this.isStop = false;
 	}
 
 	draw() {

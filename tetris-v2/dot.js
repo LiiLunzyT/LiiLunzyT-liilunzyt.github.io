@@ -48,12 +48,11 @@ class Dot {
 		let y = (this.row - 4) * SIZE;
 
 		// draw outline
-		this.game.ct.strokeStyle = 'black';
-		this.game.ct.strokeRect(x, y, SIZE, SIZE);
+
 		// draw box
-		this.game.ct.fillStyle = 'white';
-		this.game.ct.fillRect(x, y, SIZE, SIZE);
+		this.game.ct.fillStyle = 'black';
+		this.game.ct.fillRect(x + 1, y + 1, SIZE - 1, SIZE - 1);
 		this.game.ct.fillStyle = this.color;
-		this.game.ct.fillRect(x + 2, y + 2, SIZE - 2, SIZE - 2);
+		this.game.ct.fillRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
 	}
 }

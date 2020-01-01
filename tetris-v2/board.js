@@ -38,6 +38,43 @@ class Board {
 		this.dots = [];
 	}
 
+	checkBoard() {
+		let count = 0;
+		for(let row = 0; row < ROWS;) {
+			if(this.checkFullRow(row)) {
+				this.drop(row);
+				count++;
+			}
+			else row++;
+		}
+		if(count) {
+			let score = count * 10 * (1 + (count-1) * 0.2);
+			this.game.score += score;
+			sound[1].play();
+		}	
+	}
+
+	checkFullRow(row) {
+		let isFull = true;
+		for(let col = 0; col < COLS; col++) {
+			if(this.data[row][col] == _) isFull = false;
+		}
+
+		return isFull;
+	}
+
+	drop(row) {
+		this.data.splice(row, 1);
+		this.data.unshift([_,_,_,_,_,_,_,_,_,_]);
+
+		this.dots = this.dots.filter( (dot) => {
+			return dot.row != row;
+		});
+		this.dots.forEach( (dot) => {
+			if(dot.row < row) dot.row++;
+		}); 
+	}
+
 	isEmpty(row, col) {
 		return !this.data[row][col];
 	}

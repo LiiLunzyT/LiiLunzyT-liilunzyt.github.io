@@ -4,14 +4,15 @@ const K_LEFT = 'ArrowLeft';
 const K_DOWN = 'ArrowDown';
 const K_RIGHT = 'ArrowRight';
 const K_SPACE = 'Space';
+const K_SHIFTLEFT = 'ShiftLeft';
 const K_P = 'KeyP';
-const K_R = 'KeyR';
+const K_E = 'KeyE';
 
 // BOARD
 const BOARD_COLOR = 'gray';
 const BOARD_OUTLINE_COLOR = 'black';
 const SIZE = 30;
-const WIDTH = 300;
+const WIDTH = 600;
 const HEIGHT = 600;
 
 const ROWS = 24;
@@ -36,4 +37,11 @@ const S_COLOR = [
 	'rgba(255, 255, 0  , 0.3)',	// 4 - YELLOW
 	'rgba(255, 127, 0  , 0.3)',	// 5 - ORANGE
 	'rgba(128, 76 , 51 , 0.3)',	// 6 - BROWN
+];
+
+var sound = [
+	new Audio('sound/fall.wav'),
+	new Audio('sound/clear.wav'),
+	new Audio('sound/rotate.wav'),
+	new Audio('sound/move.wav')
 ];

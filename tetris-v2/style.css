@@ -1,8 +1,9 @@
 html, body {
 	padding: 0;
-	background-color: white;
+	background-color: black;
 
 	position: relative;
+
 }
 
 body {
@@ -14,7 +15,7 @@ body {
 
 #game-canvas {
 	box-sizing: border-box;
-	border: 10px solid black;
+	border: 5px solid white;
 	background-color: rgba(128, 128, 128, 0.5);
 }
 
@@ -27,6 +28,7 @@ body {
 	margin: 20px;
 	width: 200px;
 	height: 100%;
+	background-color: white;
 }
 
 #game-progress {
