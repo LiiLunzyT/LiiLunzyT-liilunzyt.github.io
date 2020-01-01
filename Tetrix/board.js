@@ -32,11 +32,20 @@ class Board {
 	}
 
 	checkBoard() {
+		let count = 0;
 		for(let row = 0; row < ROWS;) {
 			if(this.checkFullRow(row)) {
 				this.drop(row);
+				count++;
 			}
 			else row++;
+		}
+		if(count) {
+			let score = count * 10 * (1 + (count-1) * 0.2);
+			this.game.score += score;
+			this.game.log = "X" + count + "  " + score;
+
+			delay(1000, 'queueName');
 		}
 	}
 

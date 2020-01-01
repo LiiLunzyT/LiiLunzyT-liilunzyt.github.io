@@ -24,7 +24,7 @@ class Brick {
 			case 5: this.type = J; break;
 			case 6: this.type = L; break;
 		};
-		this.dir = Math.floor(Math.random() * this.type.length);
+		this.dir = Math.floor(Math.random() * 4);
 		this.shape = this.type[this.dir];
 		this.createDots();
 	}
