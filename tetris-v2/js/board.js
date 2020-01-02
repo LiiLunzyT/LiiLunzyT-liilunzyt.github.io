@@ -51,7 +51,7 @@ class Board {
 			sound[1].play();
 
 			this.drop(rowFull);
-			
+
 			let score = count * 10 * (1 + (count-1) * 0.2);
 			this.game.score += score;
 			this.game.line += count;

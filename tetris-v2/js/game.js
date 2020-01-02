@@ -24,12 +24,18 @@ class Game {
 		// set size game-canvas
 		this.cv.width = WIDTH;
 		this.cv.height = HEIGHT;
-		this.drawBoard();
-		this.drawIntro();
 
 		// Set variables
 		this.isRunning = false;
 		this.isPause = false;
+
+		this.speed = 0;
+		this.score = 0;
+		this.line = 0;
+
+		// Intro
+		this.drawBoard();
+		this.drawIntro();
 
 		// add Key listener
 		this.readKeyPress();
@@ -174,6 +180,11 @@ class Game {
 		this.ct.lineTo(302,600);
 		this.ct.stroke();
 
+		// Draw Stat
+		this.drawText('SPEED: ' + this.speed, 30, 330, 300);
+		this.drawText('SCORE: ' + this.score, 30, 330, 350);
+		this.drawText('CLEAR: ' + this.line, 30, 330, 400);
+
 		// Draw Next Brick UI
 		this.drawText('NEXT',30, 360, 40);
 		this.ct.strokeStyle = 'white';
@@ -182,13 +193,25 @@ class Game {
 		this.ct.clearRect(0, 0, WIDTH/2, HEIGHT);
 	}
 
+	drawStat() {
+		this.ct.clearRect(330, 250, 200, 200);
+		this.ct.fillStyle = 'black';
+		this.ct.fillRect(330, 250, 200, 200);
+
+		this.drawText('SPEED: ' + (this.speed+1), 30, 330, 300);
+		this.drawText('SCORE: ' + this.score, 30, 330, 350);
+		this.drawText('CLEAR: ' + this.line, 30, 330, 400);
+	}
+
 	update() {
 		this.speed = Math.floor(this.line / 10);
 	}
 
 	draw() {
 		this.clearBoard();
+		this.drawStat();
 		this.board.draw();
+		this.drawStat();
 		this.brick[0].draw();
 		this.brick[1].draw(10,6);
 	}
