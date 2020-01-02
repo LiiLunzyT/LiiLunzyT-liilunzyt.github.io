@@ -1,11 +1,11 @@
 class Brick {
-	constructor(game) {
+	constructor(game, row, col) {
 		this.game = game;
 
 		this.dots = null;
 		this.shadow = null;
 		this.color = null;
-		this.fallInterval = null;
+		this.s_color = null;
 		this.isStop = null;
 
 		this.type = null;
@@ -14,6 +14,7 @@ class Brick {
 		this.col = null;
 		this.row = null;
 
+		this.nextBrick = null;
 		this.init();
 	}
 
@@ -21,6 +22,7 @@ class Brick {
 		this.dots = [];
 		this.shadow = [];
 		this.color = "";
+		this.s_color = "";
 		this.type = [];
 		this.shape = [];
 		this.dir = 0;
@@ -31,8 +33,6 @@ class Brick {
 
 		this.createShape();
 		this.createDots();
-
-		this.setFallInterval(500);
 	}
 
 	createDots() {
@@ -54,6 +54,7 @@ class Brick {
 		this.type = listType[r];
 		this.shape = this.type[this.dir];
 		this.color = B_COLOR[r];
+		this.s_color = S_COLOR[r];
 	}
 
 	canRotate() {
@@ -88,23 +89,26 @@ class Brick {
 			if(this.dir == 4) this.dir = 0;
 			this.shape = this.type[this.dir];
 			this.createDots();
+			this.updateShadow();
 		}
 	}
 
 	updateShadow() {
-		this.shadow = this.shape;
-		let shapeY;
-		for(let shapeY = 23; shapeY > 4; shapeY--) {
-			this.dots.forEach( (dot) => {
-				
-			});
-		}
-	}
+		this.shadow = [];
+		let y = 0;
 
-	setFallInterval(delay) {
-		this.fallInterval = setInterval( () => {
-			this.fall();
-		}, delay);
+		for(y = this.dots[3].row + 1; y <= 23; y++) {
+			let check = true;
+			this.dots.forEach( (dot) => {
+				if( !this.game.board.isEmpty(y - this.dots[3].row + dot.row, dot.col) ) check  = false;
+			});
+			if( !check ) break;
+		}
+
+		y--;
+		this.dots.forEach( (dot) => {
+			this.shadow.push([y - this.dots[3].row + dot.row, dot.col]);
+		});
 	}
 
 	canMoveLeft() {
@@ -122,6 +126,7 @@ class Brick {
 				dot.moveLeft();
 			});
 			this.col--;
+			this.updateShadow();
 		}
 	}
 
@@ -140,6 +145,7 @@ class Brick {
 				dot.moveRight();
 			});
 			this.col++;
+			this.updateShadow()
 		}
 	}
 
@@ -158,14 +164,17 @@ class Brick {
 				dot.fall();
 			}); 
 			this.row++;
-			this.game.board.checkBoard();
+			this.updateShadow();
 			return true;
 		}
 		else {
 			sound[0].play();
-			clearInterval(this.fallInterval);
+			setTimeout( () => {
+				this.game.board.checkBoard();
+			}, 200);
 			this.game.board.addBrick(this.dots);
-			this.init();
+			this.game.brick.shift();
+			this.game.brick.push(new Brick(this.game));
 			return false;
 		}
 	}
@@ -175,18 +184,31 @@ class Brick {
 	}
 
 	Pause() {
-		clearInterval(this.fallInterval);
 		this.isStop = true;
 	}
 
 	unPause() {
-		this.setFallInterval(500);
 		this.isStop = false;
 	}
 
-	draw() {
+	draw(x_offset = 0, y_offset = 0) {
+		// Draw brick
 		this.dots.forEach( (dot) => {
-			dot.draw();
+			dot.draw(x_offset, y_offset);
+		});
+
+		// Draw shadow
+		this.shadow.forEach( (dot) => {
+			let x = dot[1] * SIZE;
+			let y = (dot[0] - 4) * SIZE;
+
+			// draw outline
+			this.game.ct.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+			this.game.ct.strokeRect(x + 1, y + 1, SIZE - 2, SIZE - 2);
+			// draw box
+
+			this.game.ct.fillStyle = this.s_color;
+			this.game.ct.fillRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
 		});
 	}
 }

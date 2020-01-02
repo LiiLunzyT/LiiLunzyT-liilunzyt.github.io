@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'PressStart 2P Regular';
+    font-family: 'P2P';
     src: url('font/PressStart2P-Regular.ttf');
 }
 
@@ -22,7 +22,7 @@ body {
 #game-canvas {
 	box-sizing: border-box;
 	border: 5px solid white;
-	background-color: rgba(128, 128, 128, 0.9);
+	background-color: rgba(128, 128, 128, 0.5);
 }
 
 #game-caro {
@@ -34,7 +34,7 @@ body {
 	margin: 20px;
 	width: 400px;
 	height: 100%;
-	display: block;
+	display: none;
 }
 
 #game-progress {

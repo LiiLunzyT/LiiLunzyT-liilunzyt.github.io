@@ -40,17 +40,21 @@ class Board {
 
 	checkBoard() {
 		let count = 0;
-		for(let row = 0; row < ROWS;) {
+		let rowFull = [];
+		for(let row = 4; row < ROWS; row++) {
 			if(this.checkFullRow(row)) {
-				this.drop(row);
+				rowFull.push(row);
 				count++;
 			}
-			else row++;
 		}
 		if(count) {
+			sound[1].play();
+
+			this.drop(rowFull);
+			
 			let score = count * 10 * (1 + (count-1) * 0.2);
 			this.game.score += score;
-			sound[1].play();
+			this.game.line += count;
 		}	
 	}
 
@@ -63,16 +67,19 @@ class Board {
 		return isFull;
 	}
 
-	drop(row) {
-		this.data.splice(row, 1);
-		this.data.unshift([_,_,_,_,_,_,_,_,_,_]);
+	drop(rowFull) {
+		rowFull.forEach( (row) => {
+			this.data.splice(row, 1);
+			this.data.unshift([_,_,_,_,_,_,_,_,_,_]);
 
-		this.dots = this.dots.filter( (dot) => {
-			return dot.row != row;
+			this.dots = this.dots.filter( (dot) => {
+				return dot.row != row;
+			});
+
+			this.dots.forEach( (dot) => {
+				if(dot.row < row) dot.row++;
+			});
 		});
-		this.dots.forEach( (dot) => {
-			if(dot.row < row) dot.row++;
-		}); 
 	}
 
 	isEmpty(row, col) {
@@ -86,10 +93,10 @@ class Board {
 		});
 	}
 
-	drawCaro() {
+	drawCaro(x1,y1,x2,y2) {
 		this.game.ct.strokeStyle = 'rgba(128, 128, 128, 1)';
-		for(let row = 0; row < ROWS; row++) {
-			for(let col = 0; col < COLS; col++) {
+		for(let row = y1; row < y2+y1; row++) {
+			for(let col = x1; col < x2+x1; col++) {
 				let x = col * SIZE;
 				let y = (row - 4) * SIZE;
 				this.game.ct.strokeRect(x, y, SIZE, SIZE);
@@ -98,7 +105,9 @@ class Board {
 	}
 
 	draw() {
-		this.drawCaro();
+		this.drawCaro(0,4,COLS,ROWS-4);
+		this.drawCaro(12,6, 6, 6);
+
 		this.dots.forEach( (dot) => {
 			dot.draw();
 		});
