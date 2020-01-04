@@ -4,6 +4,7 @@ const K_LEFT = 'ArrowLeft';
 const K_DOWN = 'ArrowDown';
 const K_RIGHT = 'ArrowRight';
 const K_SPACE = 'Space';
+const K_ENTER = 'Enter';
 const K_SHIFTLEFT = 'ShiftLeft';
 const K_P = 'KeyP';
 const K_E = 'KeyE';

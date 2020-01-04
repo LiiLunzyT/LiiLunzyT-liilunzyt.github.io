@@ -43,13 +43,14 @@ class Game {
 
 	readKeyPress() {
 		document.addEventListener('keydown', (event) => {
+			console.log(event.code);
 			switch(event.code) {
-				case K_SPACE: this.Start(); break;
+				case K_ENTER: this.Start(); break;
 				case K_UP: this.brick[0].rotate(); break;
 				case K_DOWN: this.brick[0].fall(); break;
 				case K_LEFT: this.brick[0].moveLeft(); break;
 				case K_RIGHT: this.brick[0].moveRight(); break;
-				case K_SHIFTLEFT: this.brick[0].instantFall(); break;
+				case K_SPACE: this.brick[0].instantFall(); break;
 				case K_P: this.Pause(); break;
 				case K_E: this.End(); break;
 			}
@@ -155,9 +156,9 @@ class Game {
 		this.ct.font = '25px P2P';
 		this.ct.lineWidth = 10;
 		this.ct.strokeStyle = 'black';
-		this.ct.strokeText('PRESS SPACE TO START', 10, 300);
+		this.ct.strokeText('PRESS ENTER TO START', 10, 300);
 		this.ct.fillStyle = 'white';
-		this.ct.fillText('PRESS SPACE TO START', 10, 300);
+		this.ct.fillText('PRESS ENTER TO START', 10, 300);
 		this.ct.lineWidth = 1;
 	}
 
