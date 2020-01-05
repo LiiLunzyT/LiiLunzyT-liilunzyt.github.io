@@ -10,6 +10,7 @@ html, body {
 	position: relative;
 	font-size: 15px;
 	color: white;
+	overflow: hidden;
 }
 
 body {
@@ -23,6 +24,9 @@ body {
 	box-sizing: border-box;
 	border: 5px solid white;
 	background-color: rgba(128, 128, 128, 0.9);
+	background-image: url('../img/bg-1.jpg');
+	background-position: right;
+	background-repeat: no-repeat;
 }
 
 #game-caro {

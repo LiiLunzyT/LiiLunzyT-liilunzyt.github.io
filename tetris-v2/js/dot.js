@@ -45,6 +45,7 @@ class Dot {
 	}
 
 	draw(x_offset = 0, y_offset = 0) {
+		this.game.ct.save();
 		// get position
 		let x = (this.col + x_offset) * SIZE;
 		let y = (this.row + y_offset - 4) * SIZE;
@@ -56,5 +57,7 @@ class Dot {
 
 		this.game.ct.fillStyle = this.color;
 		this.game.ct.fillRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
+
+		this.game.ct.restore();
 	}
 }

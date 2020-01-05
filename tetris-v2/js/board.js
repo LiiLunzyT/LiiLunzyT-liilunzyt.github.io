@@ -94,6 +94,7 @@ class Board {
 	}
 
 	drawCaro(x1,y1,x2,y2) {
+		this.game.ct.save();
 		this.game.ct.strokeStyle = 'rgba(128, 128, 128, 1)';
 		for(let row = y1; row < y2+y1; row++) {
 			for(let col = x1; col < x2+x1; col++) {
@@ -102,6 +103,7 @@ class Board {
 				this.game.ct.strokeRect(x, y, SIZE, SIZE);
 			}
 		}
+		this.game.ct.restore();
 	}
 
 	draw() {
