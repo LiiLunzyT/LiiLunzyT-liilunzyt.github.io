@@ -1,32 +1,23 @@
 [
 	{
-		"name"  : "noname",
-		"score" : "0",
-		"line"  : "0",
-		"clock" : "00:00" 
+		"rank"  : "1",
+		"name"  : "Luan1",
+		"score" : "30",
+		"line"  : "3",
+		"clock" : "00:30" 
 	},
 	{
-		"name"  : "noname",
-		"score" : "0",
-		"line"  : "0",
-		"clock" : "00:00" 
+		"rank"  : "2",
+		"name"  : "Luan2",
+		"score" : "20",
+		"line"  : "2",
+		"clock" : "00:020" 
 	},
 	{
-		"name"  : "noname",
-		"score" : "0",
-		"line"  : "0",
-		"clock" : "00:00" 
-	},
-	{
-		"name"  : "noname",
-		"score" : "0",
-		"line"  : "0",
-		"clock" : "00:00" 
-	},
-	{
-		"name"  : "noname",
-		"score" : "0",
-		"line"  : "0",
-		"clock" : "00:00" 
+		"rank"  : "3",
+		"name"  : "Luan",
+		"score" : "10",
+		"line"  : "1",
+		"clock" : "00:01" 
 	}
 ]

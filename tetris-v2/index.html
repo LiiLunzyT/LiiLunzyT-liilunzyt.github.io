@@ -8,8 +8,8 @@
 </head>
 <body>
 	<canvas id="game-canvas"></canvas>
-	<canvas id="game-caro"></canvas>
 	<div id="game-info">
+		<button id="btn-hide">Top Score</button>
 		<table id="game-progress">
 			<tr>
 				<th>Công việc</th>
@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td>Chức năng cơ bản</td>
-				<td style="color: yellow">90%</td>
+				<td style="color: green">100%</td>
 			</tr>
 			<tr>
 				<td>Đồ hoạ</td>
@@ -58,12 +58,31 @@
 				Phím P			 : Tạm dừng/Tiếp tục trò chơi <br>
 				Phím E			 : Kết thúc trò chơi
 			</p>
-
+		</div>
+		<div id="top-score">
+			<div id="btn-close">&times;</div>
+			<table>
+				<tr>
+					<th>Top</th>
+					<th>Name</th>
+					<th>Score</th>
+					<th>Clear</th>
+					<th>Clock</th>
+					<th>Time</th>
+				</tr>
+				<tr>
+					<th>Top</th>
+					<th>Name</th>
+					<th>Score</th>
+					<th>Clear</th>
+					<th>Clock</th>
+					<th>Time</th>
+				</tr>
+			</table>
 		</div>
 	</div>
 </body>
 
-<script type="text/javascript" src="js/CanvasInput.js"></script>
 <script type="text/javascript" src="js/const.js"></script>
 <script type="text/javascript" src="js/brickType.js"></script>
 <script type="text/javascript" src="js/dot.js"></script>

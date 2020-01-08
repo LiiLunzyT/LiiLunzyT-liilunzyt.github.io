@@ -44,18 +44,33 @@ class Board {
 		for(let row = 4; row < ROWS; row++) {
 			if(this.checkFullRow(row)) {
 				rowFull.push(row);
+				this.fullRowChangeColor(row);
 				count++;
 			}
 		}
 		if(count) {
+			setTimeout( () => {
+				this.drop(rowFull);
+
+				let score = count * 10 * (1 + (count-1) * 0.2);
+				this.game.score += score;
+				this.game.line += count;
+			}, 300);
 			sound[1].play();
-
-			this.drop(rowFull);
-
-			let score = count * 10 * (1 + (count-1) * 0.2);
-			this.game.score += score;
-			this.game.line += count;
 		}	
+	}
+
+	fullRowChangeColor(row) {
+		let color = this.game.brick[0].s_color;
+		let i = 0;
+		this.dots.forEach( (dot) => {
+			if( dot.row == row ) {
+				setTimeout( () => {
+					dot.color = color;
+				}, i*30);
+				i += 1;
+			}
+		});
 	}
 
 	checkFullRow(row) {

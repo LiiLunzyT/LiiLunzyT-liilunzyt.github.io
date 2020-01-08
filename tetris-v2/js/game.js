@@ -1,11 +1,4 @@
-$(document).ready(function() {
-    var myItems;
 
-    $.getJSON('score.json', function(data) {
-        myItems = data.items;
-        console.log(myItems);
-    });
-});
 
 class Game {
 	constructor() {
@@ -16,19 +9,27 @@ class Game {
 		this.isPause = null;
 		this.drawInterval = null;
 		this.fallInterval = null;
+		this.clockInterval = null;
 
 		this.board = null;
 		this.brick = null;
 		this.score = null;
 		this.line = null;
-		this.speed = null;
-		this.inputName = null;
+		this.clock = null;
 		this.playerName = null;
+
+		this.highscore = null;
 
 		this.init();
 	}
 
 	init() {
+		// Get player name
+		this.playerName = window.prompt("Nhập tên người chơi","noname");
+		if(this.playerName == null) {
+			this.playerName = "noname";
+		}
+
 		// Get canvas
 		this.cv = document.getElementById('game-canvas');
 		this.ct = this.cv.getContext('2d');
@@ -42,7 +43,7 @@ class Game {
 		this.isRunning = false;
 		this.isPause = false;
 
-		this.speed = 0;
+		this.clock = 0;
 		this.score = 0;
 		this.line = 0;
 
@@ -56,7 +57,6 @@ class Game {
 
 	readKeyPress() {
 		document.addEventListener('keydown', (event) => {
-			console.log(event.code);
 			switch(event.code) {
 				case K_ENTER: this.Start(); break;
 				case K_UP: this.brick[0].rotate(); break;
@@ -78,19 +78,18 @@ class Game {
 			this.brick = [new Brick(this), new Brick(this)];
 			this.score = 0;
 			this.line = 0;
-			this.speed = 0;
-			if( !this.playerName) {
-				this.playerName = this.inputName._value;
-				this.inputName.destroy();
-			}
+			this.clock = 0;
 
+			this.clockInterval = setInterval( () => {
+				this.clock += 1;
+			}, 1000);
 			this.drawInterval = setInterval( () => {
 				this.update();
 				this.draw();
 			}, 30);
 			this.fallInterval = setInterval( () => {
 				this.brick[0].fall();
-			}, 1000 - this.speed * 100);
+			}, 700);
 		}
 	}
 
@@ -157,7 +156,7 @@ class Game {
 		}, 50);
 		this.fallInterval = setInterval( () => {
 			this.brick[0].fall();
-		}, 1000 - (this.speed - 1) * 100);
+		}, 700);
 		this.brick[0].unPause();
 	}
 
@@ -177,35 +176,13 @@ class Game {
 
 	drawIntro() {
 		this.ct.save();
-		this.ct.font = '25px Arial';
-		this.ct.lineWidth = 10;
+		this.ct.font = '21px Arial';
+		this.ct.lineWidth = 8;
 		this.ct.strokeStyle = 'black';
-		this.ct.strokeText('ENTER YOUR NAME', 30, 300);
+		this.ct.strokeText('PRESS ENTER TO START', 20, 300);
 		this.ct.fillStyle = 'white';
-		this.ct.fillText('ENTER YOUR NAME', 30, 300);
+		this.ct.fillText('PRESS ENTER TO START', 20, 300);
 		this.ct.lineWidth = 1;
-
-		this.inputName = new CanvasInput({
-			canvas: document.getElementById('game-canvas'),
-			fontSize: 18,
-			fontFamily: 'Arial',
-			fontColor: 'gray',
-			fontWeight: 'bold',
-			fontStyle: 'italic',
-			width: 180,
-			padding: 8,
-			borderWidth: 1,
-			borderColor: '#000',
-			borderRadius: 3,
-			boxShadow: '1px 1px 0px #fff',
-			innerShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
-			placeHolder: 'Enter your name...',
-			x: 50,
-			y: 310,
-			value: 'noname'
-		});
-		this.inputName.focus();
-		this.inputName.selectText();
 		this.ct.restore();
 	}
 
@@ -241,7 +218,7 @@ class Game {
 		this.ct.lineWidth = 6;
 		this.ct.strokeStyle = 'white';
 		this.ct.stroke();
-		this.drawText('SPEED : ' + (this.speed+1), 25, 370, 330, 'black', true, 2 , 'white');
+		this.drawText('CLOCK : ' + this.clock, 25, 370, 330, 'black', true, 2 , 'white');
 		this.drawText('SCORE : ' + this.score, 25, 370, 380, 'black', true, 2 , 'white');
 		this.drawText('CLEAR : ' + this.line, 25, 370, 430, 'black', true, 2 , 'white');
 		this.ct.shadowBlur = 0;
@@ -267,8 +244,8 @@ class Game {
 		// Score Box
 		this.ct.shadowBlur = 10;
 		this.ct.shadowColor = "green";
-		this.ct.clearRect(360, 300, 180, 150);
-		this.drawText('SPEED : ' + (this.speed+1), 25, 370, 330, 'black', true, 2 , 'white');
+		this.ct.clearRect(360, 300, 190, 150);
+		this.drawText('CLOCK : ' + toHHMMSS(this.clock), 25, 370, 330, 'black', true, 2 , 'white');
 		this.drawText('SCORE : ' + this.score, 25, 370, 380, 'black', true, 2 , 'white');
 		this.drawText('CLEAR : ' + this.line, 25, 370, 430, 'black', true, 2 , 'white');
 		this.ct.shadowBlur = 0;
@@ -277,7 +254,7 @@ class Game {
 	}
 
 	update() {
-		this.speed = Math.floor(this.line / 10);
+
 	}
 
 	draw() {
@@ -290,3 +267,21 @@ class Game {
 }
 
 var game = new Game();
+
+var toHHMMSS = (secs) => {
+    var sec_num = parseInt(secs, 10)
+    var hours   = Math.floor(sec_num / 3600)
+    var minutes = Math.floor(sec_num / 60) % 60
+    var seconds = sec_num % 60
+
+    return [hours,minutes,seconds]
+        .map(v => v < 10 ? "0" + v : v)
+        .filter((v,i) => v !== "00" || i > 0)
+        .join(":")
+}
+
+$(document).ready(function() { 
+	$.getJSON('score.json', function(data) {
+		game.highscore = data;
+	});
+}); 
