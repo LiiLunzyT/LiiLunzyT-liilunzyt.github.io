@@ -1,3 +1,12 @@
+$(document).ready(function() {
+    var myItems;
+
+    $.getJSON('score.json', function(data) {
+        myItems = data.items;
+        console.log(myItems);
+    });
+});
+
 class Game {
 	constructor() {
 		this.cv = null;
