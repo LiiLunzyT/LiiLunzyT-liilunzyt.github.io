@@ -64,7 +64,8 @@ class Game {
 	loadHistory() {
 		if( checkLocalStorage() ) {
 			this.history = loadLocalStorage('highscore');
-			this.loadHistory2Table();
+			if(this.history == null) return;
+				this.loadHistory2Table();
 		}
 	}
 
@@ -108,6 +109,7 @@ class Game {
 	loadHighscore() {
 		if( checkLocalStorage() ) {
 			this.highscore = loadLocalStorage('highscore');
+			if(this.highscore == null) return;
 			this.highscore.sort(rankingSorter("score", "clock"));
 			if( this.highscore.length > 10) this.highscore.length = 10;
 			this.highscore.forEach( (record, i) => {
