@@ -61,12 +61,12 @@ class Board {
 	}
 
 	fullRowChangeColor(row) {
-		let color = this.game.brick[0].s_color;
 		let i = 0;
 		this.dots.forEach( (dot) => {
 			if( dot.row == row ) {
 				setTimeout( () => {
-					dot.color = color;
+					let r = Math.floor(Math.random() * 7);
+					dot.color = S_COLOR[r];
 				}, i*30);
 				i += 1;
 			}
