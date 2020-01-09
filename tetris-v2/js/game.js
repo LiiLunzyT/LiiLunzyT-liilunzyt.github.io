@@ -62,10 +62,9 @@ class Game {
 	}
 
 	loadHistory() {
-		if( checkLocalStorage() ) {
+		if (checkLocalStorage('highscore') ) {
 			this.history = loadLocalStorage('highscore');
-			if(this.history == null) return;
-				this.loadHistory2Table();
+			this.loadHistory2Table();
 		}
 	}
 
@@ -107,9 +106,8 @@ class Game {
 	}
 
 	loadHighscore() {
-		if( checkLocalStorage() ) {
+		if(checkLocalStorage('highscore')) {
 			this.highscore = loadLocalStorage('highscore');
-			if(this.highscore == null) return;
 			this.highscore.sort(rankingSorter("score", "clock"));
 			if( this.highscore.length > 10) this.highscore.length = 10;
 			this.highscore.forEach( (record, i) => {

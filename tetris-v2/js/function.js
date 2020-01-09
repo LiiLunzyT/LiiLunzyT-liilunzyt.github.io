@@ -1,12 +1,12 @@
 function hideGuide() {
     let d = document.getElementById('game-info');
     let b = document.getElementById('btn-hide');
-    if (d.style.display != "none") {
-        d.style.display = "none";
-        b.style.transform = "rotate(0deg)";
-    } else {
+    if (d.style.display == "none") {
         d.style.display = "block";
         b.style.transform = "rotate(180deg)";
+    } else {
+        d.style.display = "none";
+        b.style.transform = "rotate(0deg)";
     }
 }
 
@@ -45,8 +45,8 @@ function loadLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
 }
 
-function checkLocalStorage() {
-    return localStorage.length != 0;
+function checkLocalStorage(key) {
+    return localStorage.getItem(key) != null && localStorage.getItem(key).length != 0;
 }
 
 function rankingSorter(firstKey, secondKey) {
