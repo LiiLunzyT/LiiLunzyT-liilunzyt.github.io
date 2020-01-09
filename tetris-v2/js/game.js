@@ -18,8 +18,6 @@ class Game {
 		this.clock = null;
 		this.playerName = null;
 
-		this.highscore = null;
-
 		this.init();
 	}
 
@@ -47,12 +45,46 @@ class Game {
 		this.score = 0;
 		this.line = 0;
 
+		// Load Highscore
+		this.loadHighscore();
+		this.loadHighScoreTable();
+
 		// Intro
 		this.drawBoard();
 		this.drawIntro();
 
 		// add Key listener
 		this.readKeyPress();
+	}
+
+	loadHighscore() {
+		let table = document.createElement('table');
+		let header = [];
+		$.getJSON('score.json', (data) => {
+			let tr = document.createElement('tr');
+			Object.keys(data[0]).map( (key) => {
+				let th = document.createElement('th');
+				header.push(key);
+				th.append(key);
+				tr.appendChild(th);
+			});
+			table.appendChild(tr);
+			for(let i = 0; i < data.length; i++) {
+				let tr = document.createElement('tr');
+				header.map( (key) => {
+					let th = document.createElement('th');
+					th.append(data[0][key]);
+					tr.appendChild(th);
+				});
+				table.appendChild(tr);
+			}
+		});
+		document.getElementById('top-score').append(table);
+	}
+
+	loadHighScoreTable() {
+		let table = document.createElement('table');
+		
 	}
 
 	readKeyPress() {
@@ -101,6 +133,7 @@ class Game {
 			this.brick = null;
 			clearInterval(this.drawInterval);
 			this.isRunning = false;
+			clearInterval(this.clockInterval);
 
 			// Draw Score Board
 			this.ct.lineWidth = 8;
@@ -131,6 +164,7 @@ class Game {
 			console.log('GAME PAUSE');
 			clearInterval(this.drawInterval);
 			clearInterval(this.fallInterval);
+			clearInterval(this.clockInterval);
 			this.brick[0].Pause();
 			this.isPause = true;
  			
@@ -151,6 +185,9 @@ class Game {
 	}
 
 	unPause() {
+		this.clockInterval = setInterval( () => {
+			this.clock += 1;
+		}, 1000);
 		this.drawInterval = setInterval( () => {
 			this.draw();
 		}, 50);
@@ -279,9 +316,3 @@ var toHHMMSS = (secs) => {
         .filter((v,i) => v !== "00" || i > 0)
         .join(":")
 }
-
-$(document).ready(function() { 
-	$.getJSON('score.json', function(data) {
-		game.highscore = data;
-	});
-}); 

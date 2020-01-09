@@ -13,6 +13,7 @@ class Brick {
 		this.dir = null;
 		this.col = null;
 		this.row = null;
+		this.haveFall = null;
 
 		this.nextBrick = null;
 		this.init();
@@ -30,6 +31,7 @@ class Brick {
 
 		this.col = 3;
 		this.row = 1;
+		this.haveFall = 0;
 
 		this.createShape();
 		this.createDots();
@@ -164,10 +166,12 @@ class Brick {
 				dot.fall();
 			}); 
 			this.row++;
+			this.haveFall++;
 			this.updateShadow();
 			return true;
 		}
 		else {
+			if(this.haveFall == 0) return this.game.End();
 			sound[0].play();
 
 			this.game.board.addBrick(this.dots);

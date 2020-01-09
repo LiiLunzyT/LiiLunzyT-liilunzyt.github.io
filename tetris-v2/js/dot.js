@@ -4,8 +4,6 @@ class Dot {
 		this.row = row;
 		this.col = col;
 		this.color = color;
-
-		if( !this.game.board.isEmpty(this.row, this.col)) return this.game.End();
 	}
 
 	canMoveLeft() {

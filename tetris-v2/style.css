@@ -56,3 +56,7 @@ table, th{
 	padding: 10px;
 	font-size: 14px;
 }
+
+#top-score {
+	display: none;
+}

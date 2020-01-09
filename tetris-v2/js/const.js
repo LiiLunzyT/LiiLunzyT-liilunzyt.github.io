@@ -46,3 +46,7 @@ var sound = [
 	new Audio('sound/rotate.wav'),
 	new Audio('sound/move.wav')
 ];
+
+sound.forEach( (s) => {
+	s.volume = 0.1;
+});
