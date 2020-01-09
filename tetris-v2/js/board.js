@@ -66,8 +66,8 @@ class Board {
 			if( dot.row == row ) {
 				setTimeout( () => {
 					let r = Math.floor(Math.random() * 7);
-					dot.color = S_COLOR[r];
-				}, i*30);
+					dot.color = C_COLOR[r];
+				}, i*25);
 				i += 1;
 			}
 		});

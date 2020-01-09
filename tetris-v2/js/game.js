@@ -17,13 +17,15 @@ class Game {
 		this.line = null;
 		this.clock = null;
 		this.playerName = null;
+		this.history = null;
+		this.highscore = null;
 
 		this.init();
 	}
 
 	init() {
 		// Get player name
-		this.playerName = window.prompt("Nhập tên người chơi","noname");
+		this.playerName = window.prompt("Nhập tên người chơi (tối đa 10 ký tự)","noname");
 		if(this.playerName == null) {
 			this.playerName = "noname";
 		}
@@ -44,10 +46,12 @@ class Game {
 		this.clock = 0;
 		this.score = 0;
 		this.line = 0;
+		this.history = [];
+		this.highscore = [];
 
 		// Load Highscore
+		this.loadHistory();
 		this.loadHighscore();
-		this.loadHighScoreTable();
 
 		// Intro
 		this.drawBoard();
@@ -57,34 +61,97 @@ class Game {
 		this.readKeyPress();
 	}
 
-	loadHighscore() {
-		let table = document.createElement('table');
-		let header = [];
-		$.getJSON('score.json', (data) => {
-			let tr = document.createElement('tr');
-			Object.keys(data[0]).map( (key) => {
-				let th = document.createElement('th');
-				header.push(key);
-				th.append(key);
-				tr.appendChild(th);
-			});
-			table.appendChild(tr);
-			for(let i = 0; i < data.length; i++) {
-				let tr = document.createElement('tr');
-				header.map( (key) => {
-					let th = document.createElement('th');
-					th.append(data[0][key]);
-					tr.appendChild(th);
-				});
-				table.appendChild(tr);
-			}
-		});
-		document.getElementById('top-score').append(table);
+	loadHistory() {
+		if( checkLocalStorage() ) {
+			this.history = loadLocalStorage('highscore');
+			this.loadHistory2Table();
+		}
 	}
 
-	loadHighScoreTable() {
+	loadHistory2Table() {
 		let table = document.createElement('table');
-		
+		let header = Object.keys(this.history[0]);
+		let thead = document.createElement('thead');
+		let tr = document.createElement('tr');
+		let index = document.createElement('th');
+		index.append("#");
+		tr.appendChild(index);
+		header.map( (key) => {
+			let th = document.createElement('th');
+			th.append(key.toUpperCase());
+			tr.appendChild(th); 
+		});
+		thead.appendChild(tr);
+		table.appendChild(thead);
+
+		let tbody = document.createElement('tbody');
+		this.history.forEach( (record, i) => {
+			let tr = document.createElement('tr');
+			header.map( (key, j) => {
+				let td = document.createElement('td');
+				if( j == 0) {
+					let index = document.createElement('td');
+					index.append("#" + (i+1));
+					tr.appendChild(index);
+				}
+				td.append(record[key]);
+				tr.appendChild(td);
+			});
+			tbody.appendChild(tr);
+		});
+
+		table.appendChild(tbody);
+		document.getElementById('game-history').innerHTML = "";
+		document.getElementById('game-history').appendChild(table);
+	}
+
+	loadHighscore() {
+		if( checkLocalStorage() ) {
+			this.highscore = loadLocalStorage('highscore');
+			this.highscore.sort(rankingSorter("score", "clock"));
+			if( this.highscore.length > 10) this.highscore.length = 10;
+			this.highscore.forEach( (record, i) => {
+				if( record['score'] == "0") this.highscore.splice(i,this.highscore.length - i);
+			});
+			if( this.highscore.length != 0) this.loadHighscore2Table();
+		}
+	}
+
+	loadHighscore2Table() {
+		let table = document.createElement('table');
+		let header = Object.keys(this.highscore[0]);
+		let thead = document.createElement('thead');
+		let tr = document.createElement('tr');
+		let index = document.createElement('th');
+		index.append("RANK");
+		tr.appendChild(index);
+		header.map( (key) => {
+			let th = document.createElement('th');
+			th.append(key.toUpperCase());
+			tr.appendChild(th); 
+		});
+		thead.appendChild(tr);
+		table.appendChild(thead);
+
+		let tbody = document.createElement('tbody');
+		this.highscore.forEach( (record, i) => {
+			let tr = document.createElement('tr');
+			header.map( (key, j) => {
+				let td = document.createElement('td');
+				if( j == 0) {
+					let index = document.createElement('td');
+					index.append("#" + (i+1));
+					tr.appendChild(index);
+				}
+				td.append(record[key]);
+				tr.appendChild(td);
+			});
+			tbody.appendChild(tr);
+		});
+
+		table.appendChild(tbody);
+		document.getElementById('game-highscore').innerHTML = "";
+		document.getElementById('game-highscore').appendChild(table);
 	}
 
 	readKeyPress() {
@@ -111,6 +178,8 @@ class Game {
 			this.score = 0;
 			this.line = 0;
 			this.clock = 0;
+			this.loadHistory();
+			this.loadHighscore();
 
 			this.clockInterval = setInterval( () => {
 				this.clock += 1;
@@ -145,7 +214,6 @@ class Game {
 			// Draw Pannel
 			this.drawText('GAME END', 30, 70, 180, 'white', true, 10);
 
-
 			// Draw Score
 			this.drawText('Your score: ', 20, 60, 220, 'red');
 			this.drawText(this.score, 30, 140, 260, 'red', true, 2);
@@ -154,6 +222,23 @@ class Game {
 
 			this.drawText('Press Enter for', 20, 60, 380, 'red',);
 			this.drawText('NEW GAME', 20, 90, 410, 'red',);
+
+			// get Day Time
+			let today = new Date();
+			let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			let dateTime = date+'\n'+time;
+
+			// Save Score
+			let data = {
+				"time"  : dateTime,
+				"name" : this.playerName,
+				"score" : this.score,
+				"clock" : toHHMMSS(this.clock)
+			}
+
+			this.history.unshift(data);
+			setLocalStorage('highscore', this.history);
 		}
 		this.ct.restore();
 	}
@@ -304,15 +389,3 @@ class Game {
 }
 
 var game = new Game();
-
-var toHHMMSS = (secs) => {
-    var sec_num = parseInt(secs, 10)
-    var hours   = Math.floor(sec_num / 3600)
-    var minutes = Math.floor(sec_num / 60) % 60
-    var seconds = sec_num % 60
-
-    return [hours,minutes,seconds]
-        .map(v => v < 10 ? "0" + v : v)
-        .filter((v,i) => v !== "00" || i > 0)
-        .join(":")
-}

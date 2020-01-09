@@ -40,6 +40,15 @@ const S_COLOR = [
 	'rgba(128, 76 , 51 , 0.1)',	// 6 - BROWN
 ];
 
+const C_COLOR = [
+	'rgba(255, 0  , 0  , 0.7)',	// 0 - RED
+	'rgba(0  , 255, 0  , 0.7)',	// 1 - GREEN
+	'rgba(0  , 0  , 255, 0.7)',	// 2 - BLUE
+	'rgba(75 , 0  , 130, 0.7)',	// 3 - PURPLE
+	'rgba(255, 255, 0  , 0.7)',	// 4 - YELLOW
+	'rgba(255, 127, 0  , 0.7)',	// 5 - ORANGE
+	'rgba(128, 76 , 51 , 0.7)',	// 6 - BROWN
+];
 var sound = [
 	new Audio('sound/fall.wav'),
 	new Audio('sound/clear.wav'),
