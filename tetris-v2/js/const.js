@@ -8,6 +8,13 @@ const K_ENTER = 'Enter';
 const K_SHIFTLEFT = 'ShiftLeft';
 const K_P = 'KeyP';
 const K_E = 'KeyE';
+const K_W = 'KeyW';
+const K_A = 'KeyA';
+const K_S = 'KeyS';
+const K_D = 'KeyD';
+const K_L = 'KeyL';
+const K_K = 'KeyK';
+
 
 // BOARD
 const BOARD_COLOR = 'gray';

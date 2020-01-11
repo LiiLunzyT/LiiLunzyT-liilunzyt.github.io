@@ -158,11 +158,16 @@ class Game {
 		document.addEventListener('keydown', (event) => {
 			switch(event.code) {
 				case K_ENTER: this.Start(); break;
-				case K_UP: this.brick[0].rotate(); break;
-				case K_DOWN: this.brick[0].fall(); break;
-				case K_LEFT: this.brick[0].moveLeft(); break;
-				case K_RIGHT: this.brick[0].moveRight(); break;
-				case K_SPACE: this.brick[0].instantFall(); break;
+				case K_UP: case K_K: 
+					this.brick[0].rotate(); break;
+				case K_DOWN: case K_S: 
+					this.brick[0].fall(); break;
+				case K_LEFT: case K_A: 
+					this.brick[0].moveLeft(); break;
+				case K_RIGHT: case K_D: 
+					this.brick[0].moveRight(); break;
+				case K_SPACE: case K_L: 
+					this.brick[0].instantFall(); break;
 				case K_P: this.Pause(); break;
 				case K_E: this.End(); break;
 			}
