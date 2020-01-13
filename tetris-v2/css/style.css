@@ -39,7 +39,7 @@ body {
 	width: 400px;
 	height: 100%;
 	margin: 0 10px;
-	display: block;
+	display: none;
 }
 
 .tab {
@@ -81,12 +81,11 @@ body {
 }
   
 #btn-hide {
-	padding: 0;
+	padding: 0 5px;
 	font-size: 20px;
 	color: white;
 	background-color: black;
 	outline: none;
-	transform: rotateY(180deg);
 }
 
 #game-progress {

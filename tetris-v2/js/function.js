@@ -1,10 +1,12 @@
 function hideGuide() {
     let d = document.getElementById('game-info');
     let b = document.getElementById('btn-hide');
-    if (d.style.display == "none") {
+    if (b.value == "hide") {
+        b.value = "not-hide";
         d.style.display = "block";
         b.style.transform = "rotate(180deg)";
     } else {
+        b.value = "hide";
         d.style.display = "none";
         b.style.transform = "rotate(0deg)";
     }
