@@ -48,16 +48,15 @@ class Board {
 				count++;
 			}
 		}
-		if(count) {
-			setTimeout( () => {
-				this.drop(rowFull);
 
-				let score = count * 10 * (1 + (count-1) * 0.2);
-				this.game.score += score;
-				this.game.line += count;
-			}, 300);
-			sound[1].play();
-		}	
+		if(count) {
+			this.dropData(rowFull);
+			setTimeout( () => {
+				this.dropDots(rowFull);
+			}, 250);
+		}
+
+		return count;
 	}
 
 	fullRowChangeColor(row) {
@@ -82,11 +81,15 @@ class Board {
 		return isFull;
 	}
 
-	drop(rowFull) {
+	dropData(rowFull) {
 		rowFull.forEach( (row) => {
 			this.data.splice(row, 1);
 			this.data.unshift([_,_,_,_,_,_,_,_,_,_]);
+		});
+	}
 
+	dropDots(rowFull) {
+		rowFull.forEach( (row) => {
 			this.dots = this.dots.filter( (dot) => {
 				return dot.row != row;
 			});
@@ -108,23 +111,7 @@ class Board {
 		});
 	}
 
-	drawCaro(x1,y1,x2,y2) {
-		this.game.ct.save();
-		this.game.ct.strokeStyle = 'rgba(128, 128, 128, 1)';
-		for(let row = y1; row < y2+y1; row++) {
-			for(let col = x1; col < x2+x1; col++) {
-				let x = col * SIZE;
-				let y = (row - 4) * SIZE;
-				this.game.ct.strokeRect(x, y, SIZE, SIZE);
-			}
-		}
-		this.game.ct.restore();
-	}
-
 	draw() {
-		this.drawCaro(0,4,COLS,ROWS-4);
-		this.drawCaro(12,6, 6, 6);
-
 		this.dots.forEach( (dot) => {
 			dot.draw();
 		});

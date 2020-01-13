@@ -1,9 +1,13 @@
-
-
 class Game {
+	#clock;
+	#score;
+	#line;
+
 	constructor() {
 		this.cv = null;
 		this.ct = null;
+		this.font = null;
+		this.bg = null;
 
 		this.isRunning = null;
 		this.isPause = null;
@@ -13,13 +17,12 @@ class Game {
 
 		this.board = null;
 		this.brick = null;
-		this.score = null;
-		this.line = null;
-		this.clock = null;
+		this.#score = null;
+		this.#line = null;
+		this.#clock = null;
 		this.playerName = null;
 		this.history = null;
 		this.highscore = null;
-
 		this.init();
 	}
 
@@ -34,6 +37,10 @@ class Game {
 		this.cv = document.getElementById('game-canvas');
 		this.ct = this.cv.getContext('2d');
 		this.ct.translate(0.5, 0.5);
+		this.loadFont();
+		this.setContext();
+		this.bg = new Image();
+		this.bg.src = './img/bg-1.jpg';
 
 		// set size game-canvas
 		this.cv.width = WIDTH;
@@ -43,22 +50,38 @@ class Game {
 		this.isRunning = false;
 		this.isPause = false;
 
-		this.clock = 0;
-		this.score = 0;
-		this.line = 0;
+		this.#clock = 0;
+		this.#score = 0;
+		this.#line = 0;
 		this.history = [];
 		this.highscore = [];
 
 		// Load Highscore
 		this.loadHistory();
 		this.loadHighscore();
-
 		// Intro
-		this.drawBoard();
-		this.drawIntro();
+		setTimeout( () => {
+			this.drawBoard();
+			this.drawIntro();
+		}, 30);
 
 		// add Key listener
 		this.readKeyPress();
+	}
+
+	setContext() {
+		this.ct.lineWidth = 1;
+		this.ct.strokeStyle = 'black';
+		this.ct.fillStyle = 'black';
+		this.ct.save();
+	};
+
+	loadFont() {
+		this.font = new FontFace('press_start_2pregular', 'url(./css/pressstart2p-regular-webfont.woff2)');
+		this.font.load().then((font) => {
+			document.fonts.add(font);
+			console.log('Font loaded');
+		});		
 	}
 
 	loadHistory() {
@@ -180,14 +203,14 @@ class Game {
 			console.log('GAME START');
 			this.board = new Board(this);
 			this.brick = [new Brick(this), new Brick(this)];
-			this.score = 0;
-			this.line = 0;
-			this.clock = 0;
+			this.#score = 0;
+			this.#line = 0;
+			this.#clock = 0;
 			this.loadHistory();
 			this.loadHighscore();
 
 			this.clockInterval = setInterval( () => {
-				this.clock += 1;
+				this.#clock += 1;
 			}, 1000);
 			this.drawInterval = setInterval( () => {
 				this.update();
@@ -200,7 +223,6 @@ class Game {
 	}
 
 	End() {
-		this.ct.save();
 		if( this.isRunning) {
 			this.board = null;
 			clearInterval(this.fallInterval);
@@ -209,47 +231,57 @@ class Game {
 			this.isRunning = false;
 			clearInterval(this.clockInterval);
 
-			// Draw Score Board
-			this.ct.lineWidth = 8;
-			this.ct.strokeStyle = 'green';
-			this.ct.strokeRect(50,150, 200, 300);
-			this.ct.fillStyle = 'white';
-			this.ct.fillRect(50, 150, 200, 300);
-
-			// Draw Pannel
-			this.drawText('GAME END', 30, 70, 180, 'white', true, 10);
+			// Draw Scoreboard
+			this.ct.restore();
+			this.ct.globalAlpha = 0.5;
+			this.ct.fillStyle = 'black';
+			this.ct.fillRect(0, 0, 600, 600);
+			this.ct.fillStyle = 'brown';
+			this.ct.fillRect(0, 210, 300, 180);
+			this.ct.globalAlpha = 1.0;
+			this.ct.beginPath();
+			this.ct.moveTo(0,210);
+			this.ct.lineTo(300,210);
+			this.ct.moveTo(0, 390);
+			this.ct.lineTo(300,390);
+			this.ct.lineWidth = 10;
+			this.ct.strokeStyle = 'red';
+			this.ct.stroke();
+			this.drawText('GAME OVER', 30, 20, 180, 'red', true, 8, 'black');
 
 			// Draw Score
-			this.drawText('Your score: ', 20, 60, 220, 'red');
-			this.drawText(this.score, 30, 140, 260, 'red', true, 2);
-			this.drawText('Your line cleared: ', 20, 60, 300, 'red');
-			this.drawText(this.line, 30, 140, 340, 'red', true, 2);
-
-			this.drawText('Press Enter for', 20, 60, 380, 'red',);
-			this.drawText('NEW GAME', 20, 90, 410, 'red',);
+			this.ct.restore();
+			this.drawText('SCORE: ', 20, 30, 250, 'white');
+			this.drawText(this.#score, 20, 160, 250, 'white', true, 5);
+			this.drawText('LINE : ', 20, 30, 310, 'white');
+			this.drawText(this.#line, 20, 160, 310, 'white', true, 5);
+			this.drawText('CLOCK: ', 20, 30, 370, 'white');
+			this.drawText(toHHMMSS(this.#clock), 20, 160, 370, 'white', true, 5);
+			this.drawText("'Enter' for", 15, 60, 420, 'white',);
+			this.drawText('NEW GAME', 20, 70, 450, 'white', true, 5);
 
 			// get Day Time
-			let today = new Date();
-			let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-			let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-			let dateTime = date+'\n'+time;
+			if(this.#score != 0) {
+				let today = new Date();
+				let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				let dateTime = date+'\n'+time;
 
-			// Save Score
-			let data = {
-				"time"  : dateTime,
-				"name" : this.playerName,
-				"score" : this.score,
-				"clock" : toHHMMSS(this.clock)
+				// Save Score
+				let data = {
+					"time"  : dateTime,
+					"name" : this.playerName,
+					"score" : this.#score,
+					"clock" : toHHMMSS(this.#clock)
+				}
+
+				this.history.unshift(data);
+				setLocalStorage('highscore', this.history);
 			}
-
-			this.history.unshift(data);
-			setLocalStorage('highscore', this.history);
 		}
-		this.ct.restore();
 	}
 
 	Pause() {
-		this.ct.save();
 		if( !this.isPause ) {
 			console.log('GAME PAUSE');
 			clearInterval(this.drawInterval);
@@ -257,14 +289,10 @@ class Game {
 			clearInterval(this.clockInterval);
 			this.brick[0].Pause();
 			this.isPause = true;
- 			
-			this.ct.font = '30px Arial';
-			this.ct.lineWidth = 8;
-			this.ct.strokeStyle = 'black';
-			this.ct.strokeText('GAME PAUSE', 50, 300);
-			this.ct.fillStyle = 'white';
-			this.ct.fillText('GAME PAUSE', 50, 300);
-			this.ct.lineWidth = 1;
+			 
+			this.ct.restore();
+			this.fadeScreen();
+			this.drawText('GAME PAUSE', 25, 30, 300, 'white', true, 8);
 		}
 		else {
 			console.log('GAME RESUME');
@@ -276,7 +304,7 @@ class Game {
 
 	unPause() {
 		this.clockInterval = setInterval( () => {
-			this.clock += 1;
+			this.#clock += 1;
 		}, 1000);
 		this.drawInterval = setInterval( () => {
 			this.draw();
@@ -288,8 +316,7 @@ class Game {
 	}
 
 	drawText(text, size, x, y, color = 'white', stroke = false, lWidth = 1, s_color = 'black') {
-		this.ct.save();
-		this.ct.font = size + "px Arial";
+		this.ct.font = size + "px press_start_2pregular";
 		if(stroke) {
 			this.ct.lineWidth = lWidth;
 			this.ct.strokeStyle = s_color;
@@ -302,28 +329,52 @@ class Game {
 	}
 
 	drawIntro() {
-		this.ct.save();
-		this.ct.font = '21px Arial';
-		this.ct.lineWidth = 8;
-		this.ct.strokeStyle = 'black';
-		this.ct.strokeText('PRESS ENTER TO START', 20, 300);
-		this.ct.fillStyle = 'white';
-		this.ct.fillText('PRESS ENTER TO START', 20, 300);
-		this.ct.lineWidth = 1;
 		this.ct.restore();
+		this.ct.globalAlpha = 0.5;
+		this.ct.fillStyle = 'black';
+		this.ct.fillRect(0, 0, 600, 600);
+		this.ct.globalAlpha = 1.0;
+		this.drawText("'Enter' to start", 12, 50, 260, 'white', true, 8);
+		this.drawText('NEW GAME', 25, 50, 300, 'white', true, 8);
+	}
+
+	drawCaro(x1,y1,x2,y2) {
+		this.ct.restore();
+		this.ct.strokeStyle = 'rgba(128, 128, 128, 1)';
+		for(let row = y1; row < y2+y1; row++) {
+			for(let col = x1; col < x2+x1; col++) {
+				let x = col * SIZE;
+				let y = (row - 4) * SIZE;
+				this.ct.strokeRect(x, y, SIZE, SIZE);
+			}
+		}
+	}
+
+	fadeScreen() {
+		this.ct.globalAlpha = 0.5;
+		this.ct.fillStyle = 'black';
+		this.ct.fillRect(0, 0, 600, 600);
+		this.ct.globalAlpha = 1.0;
 	}
 
 	clearBoard () {
 		// clear board
-		this.ct.clearRect(0, 0, WIDTH/2, HEIGHT);
-		this.ct.clearRect(365, 65, 170, 170);
+		this.ct.restore();
+		this.ct.clearRect(0, 0, WIDTH, HEIGHT);
+		this.ct.fillStyle = 'rgba(128, 128, 128, 0.9)';
+		this.ct.fillRect(0, 0, WIDTH, HEIGHT);
+		this.ct.drawImage(this.bg, 300, 0);
+		this.ct.fillStyle = 'black';
+		this.ct.fillRect(360, 60, 180, 180);
 	}
 		// draw Main Board
 	
 	drawBoard() {
+		this.clearBoard();
+		this.ct.restore();
+
 		// draw Stat board
-		this.ct.save();
-		this.ct.lineWidth = 8;
+		this.ct.lineWidth = 5;
 		this.ct.strokeStyle = 'white';
 		this.ct.beginPath();
 		this.ct.moveTo(302,0);
@@ -340,53 +391,54 @@ class Game {
 		this.ct.lineTo(340,470);
 		this.ct.lineTo(340,300);
 		this.ct.lineTo(370,270);
-		this.ct.shadowBlur = 10;
-		this.ct.shadowColor = "green";
+		this.ct.shadowBlur = 5;
+		this.ct.shadowColor = "white";
 		this.ct.lineWidth = 6;
 		this.ct.strokeStyle = 'white';
 		this.ct.stroke();
-		this.drawText('CLOCK : ' + this.clock, 25, 370, 330, 'black', true, 2 , 'white');
-		this.drawText('SCORE : ' + this.score, 25, 370, 380, 'black', true, 2 , 'white');
-		this.drawText('CLEAR : ' + this.line, 25, 370, 430, 'black', true, 2 , 'white');
+		this.ct.shadowBlur = 0;
+		this.drawText('CLOCK: ', 20, 380, 320, 'red', true, 5 , 'black');
+		this.drawText(toHHMMSS(this.#clock), 20, 430, 350, 'cyan', true, 5 , 'black');
+		this.drawText('SCORE: ' + this.#score, 15, 380, 400, 'lightgreen', true, 5 , 'black');
+		this.drawText('CLEAR: ' + this.#line, 15, 380, 440, 'orange', true, 5 , 'black');
 		this.ct.shadowBlur = 0;
 		this.ct.shadowColor = "white";
 
 		// Draw Next Brick UI
-		this.drawText('NEXT',30, 360, 40);
+		this.drawText('NEXT',25, 360, 40, 'black', true, 3, 'white');
 		this.ct.fillStyle = 'rgba(128, 128, 128, 0.9)';
 		this.ct.fillRect(360, 60, 180, 180);
-		this.ct.strokeStyle = 'white';
+		this.ct.strokeStyle = 'silver';
+		this.ct.lineWidth = 8;
 		this.ct.strokeRect(360, 60, 6 * SIZE, 6 * SIZE);
-		this.ct.restore();
+		this.ct.lineWidth = 1;
+		this.drawCaro(0,4,COLS,ROWS-4);
+		this.drawCaro(12,6, 6, 6);
+
+		// Draaw Player Name
+		this.drawText('Playername', 20, 350, 520, 'blue', true, 3, 'white');
+		this.drawText(this.playerName, 20, 350, 550, 'white', true, 3, 'darkblue');
 	}
 
-	drawStat() {
-		// Next brick box
-		this.ct.save();
-		this.ct.fillStyle = 'black';
-		this.ct.fillRect(365, 65, 170, 170);
-		this.ct.fillStyle = 'rgba(128, 128, 128, 0.8)';
-		this.ct.fillRect(365, 65, 170, 170);
+	addScore() {
+		let count = this.board.checkBoard();
 
-		// Score Box
-		this.ct.shadowBlur = 10;
-		this.ct.shadowColor = "green";
-		this.ct.clearRect(360, 300, 190, 150);
-		this.drawText('CLOCK : ' + toHHMMSS(this.clock), 25, 370, 330, 'black', true, 2 , 'white');
-		this.drawText('SCORE : ' + this.score, 25, 370, 380, 'black', true, 2 , 'white');
-		this.drawText('CLEAR : ' + this.line, 25, 370, 430, 'black', true, 2 , 'white');
-		this.ct.shadowBlur = 0;
-		this.ct.shadowColor = "white";
-		this.ct.restore();
+		if( count ) {
+			setTimeout( () => {
+				let score = count * 10 * (1 + (count-1) * 0.2);
+				this.#score += score;
+				this.#line += count;
+			}, 300);
+			sound[1].play();
+		}
 	}
 
 	update() {
-
+		this.addScore();
 	}
 
 	draw() {
-		this.clearBoard();
-		this.drawStat();
+		this.drawBoard();
 		this.board.draw();
 		this.brick[0].draw();
 		this.brick[1].draw(10,6);

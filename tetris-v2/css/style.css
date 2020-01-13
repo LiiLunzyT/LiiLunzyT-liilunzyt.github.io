@@ -1,7 +1,4 @@
-@font-face {
-    font-family: 'PressStart 2P Regular';
-    src: url('font/PressStart2P-Regular.ttf');
-}
+
 
 * {
 	margin: 0;
@@ -22,13 +19,15 @@ body {
 	overflow: hidden;
 }
 
+#load-font {
+	font-family: press_start_2pregular;
+	position: absolute;
+	opacity: 0;
+}
+
 #game-canvas {
 	box-sizing: border-box;
 	border: 5px solid white;
-	background-color: rgba(128, 128, 128, 0.9);
-	background-image: url('../img/bg-1.jpg');
-	background-position: right;
-	background-repeat: no-repeat;
 }
 
 #game-caro {

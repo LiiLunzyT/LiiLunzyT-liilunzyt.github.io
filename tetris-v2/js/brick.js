@@ -175,7 +175,6 @@ class Brick {
 			sound[0].play();
 
 			this.game.board.addBrick(this.dots);
-			this.game.board.checkBoard();
 			this.game.brick.shift();
 			this.game.brick.push(new Brick(this.game));
 			return false;
