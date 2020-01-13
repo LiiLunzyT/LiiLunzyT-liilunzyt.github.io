@@ -28,10 +28,13 @@ class Game {
 
 	init() {
 		// Get player name
-		this.playerName = window.prompt("Nhập tên người chơi (tối đa 10 ký tự)","noname");
-		if(this.playerName == null) {
-			this.playerName = "noname";
+		let dfl_name = "noname";
+		let data = [];
+		if (checkLocalStorage('highscore') ) {
+			data = loadLocalStorage('highscore');
+			dfl_name = data[0]['name'];
 		}
+		this.playerName = window.prompt("Nhập tên người chơi (tối đa 10 ký tự)",dfl_name);
 
 		// Get canvas
 		this.cv = document.getElementById('game-canvas');
