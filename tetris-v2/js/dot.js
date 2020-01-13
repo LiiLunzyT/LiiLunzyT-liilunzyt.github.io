@@ -50,11 +50,11 @@ class Dot {
 
 		// draw outline
 		this.game.ct.strokeStyle = 'black';
-		this.game.ct.strokeRect(x + 1, y + 1, SIZE - 2, SIZE - 2);
+		this.game.ct.strokeRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
 		// draw box
 
 		this.game.ct.fillStyle = this.color;
-		this.game.ct.fillRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
+		this.game.ct.fillRect(x + 3, y + 3, SIZE - 6, SIZE - 6);
 
 		this.game.ct.restore();
 	}

@@ -206,11 +206,11 @@ class Brick {
 
 			// draw outline
 			this.game.ct.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-			this.game.ct.strokeRect(x + 1, y + 1, SIZE - 2, SIZE - 2);
+			this.game.ct.strokeRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
 			// draw box
 
 			this.game.ct.fillStyle = this.s_color;
-			this.game.ct.fillRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
+			this.game.ct.fillRect(x + 3, y + 3, SIZE - 6, SIZE - 6);
 		});
 	}
 }
