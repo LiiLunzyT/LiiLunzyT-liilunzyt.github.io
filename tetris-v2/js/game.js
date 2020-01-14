@@ -80,7 +80,7 @@ class Game {
 	};
 
 	loadFont() {
-		this.font = new FontFace('press_start_2pregular', 'url(./css/pressstart2p-regular-webfont.woff2)');
+		this.font = new FontFace('press_start_2pregular', 'url(./css/pressstart2p.woff2)');
 		this.font.load().then((font) => {
 			document.fonts.add(font);
 			console.log('Font loaded');
@@ -197,7 +197,8 @@ class Game {
 					case K_RIGHT: case K_D: 
 						this.brick[0].moveRight(); break;
 					case K_SPACE: case K_L: 
-						this.brick[0].instantFall(); break;
+						this.brick[0].instantFall();
+						sound[5].play(); break;
 					case K_P: this.Pause(); break;
 					case K_E: this.End(); break;
 				}

@@ -19,27 +19,18 @@ body {
 	overflow: hidden;
 }
 
-#load-font {
-	font-family: press_start_2pregular;
-	position: absolute;
-	opacity: 0;
-}
-
 #game-canvas {
 	box-sizing: border-box;
 	border: 5px solid white;
-}
-
-#game-caro {
-	position: absolute;
-	left: 0;
+	z-index: 10;
 }
 
 #game-info {
 	width: 400px;
 	height: 100%;
 	margin: 0 10px;
-	display: none;
+	margin-left: -500px;
+	transition: 0.5s margin;
 }
 
 .tab {
@@ -86,6 +77,11 @@ body {
 	color: white;
 	background-color: black;
 	outline: none;
+	margin-left: -20px;
+	transition: 0.5s margin;
+}
+#btn-hide:hover {
+	margin-left: 0;
 }
 
 #game-progress {

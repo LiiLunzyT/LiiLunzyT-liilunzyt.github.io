@@ -1,13 +1,14 @@
 function hideGuide() {
     let d = document.getElementById('game-info');
     let b = document.getElementById('btn-hide');
+    d.blur();
     if (b.value == "hide") {
         b.value = "not-hide";
-        d.style.display = "block";
+        d.style.marginLeft = 0;
         b.style.transform = "rotate(180deg)";
     } else {
         b.value = "hide";
-        d.style.display = "none";
+        d.style.marginLeft = "-500px";
         b.style.transform = "rotate(0deg)";
     }
 }
