@@ -38,7 +38,12 @@ class Board {
 		this.dots = [];
 	}
 
+	clearBoard() {
+		this.dots = this.dots.filter( (v, i) => this.dots.indexOf(v) === i);
+	}
+
 	checkBoard() {
+		this.clearBoard();
 		let count = 0;
 		let rowFull = [];
 		for(let row = 4; row < ROWS; row++) {
@@ -53,7 +58,7 @@ class Board {
 			this.dropData(rowFull);
 			setTimeout( () => {
 				this.dropDots(rowFull);
-			}, 250);
+			}, 10 * 1000 / 60);
 		}
 
 		return count;
@@ -66,7 +71,7 @@ class Board {
 				setTimeout( () => {
 					let r = Math.floor(Math.random() * 7);
 					dot.color = C_COLOR[r];
-				}, i*25);
+				}, i * 1000 / 60);
 				i += 1;
 			}
 		});

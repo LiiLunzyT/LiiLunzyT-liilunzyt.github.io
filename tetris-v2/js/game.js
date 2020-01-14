@@ -182,105 +182,120 @@ class Game {
 
 	readKeyPress() {
 		document.addEventListener('keydown', (event) => {
-			switch(event.code) {
-				case K_ENTER: this.Start(); break;
-				case K_UP: case K_K: 
-					this.brick[0].rotate(); break;
-				case K_DOWN: case K_S: 
-					this.brick[0].fall(); break;
-				case K_LEFT: case K_A: 
-					this.brick[0].moveLeft(); break;
-				case K_RIGHT: case K_D: 
-					this.brick[0].moveRight(); break;
-				case K_SPACE: case K_L: 
-					this.brick[0].instantFall(); break;
-				case K_P: this.Pause(); break;
-				case K_E: this.End(); break;
+			if( !this.isRunning ) { // while game isn't running
+				switch(event.code) {
+					case K_ENTER: this.Start(); break;
+				}
+			} else {
+				switch(event.code) { // while game is running
+					case K_UP: case K_K: 
+						this.brick[0].rotate(); break;
+					case K_DOWN: case K_S: 
+						this.brick[0].fall(); break;
+					case K_LEFT: case K_A: 
+						this.brick[0].moveLeft(); break;
+					case K_RIGHT: case K_D: 
+						this.brick[0].moveRight(); break;
+					case K_SPACE: case K_L: 
+						this.brick[0].instantFall(); break;
+					case K_P: this.Pause(); break;
+					case K_E: this.End(); break;
+				}
 			}
 		});
 	}
 
 	Start() {
-		if(!this.isRunning) {
-			this.isRunning = true;
-			console.log('GAME START');
-			this.board = new Board(this);
-			this.brick = [new Brick(this), new Brick(this)];
-			this.#score = 0;
-			this.#line = 0;
-			this.#clock = 0;
-			this.loadHistory();
-			this.loadHighscore();
+		this.isRunning = true;
+		console.log('GAME START');
+		this.board = new Board(this);
+		this.brick = [new Brick(this), new Brick(this)];
+		this.#score = 0;
+		this.#line = 0;
+		this.#clock = 0;
+		this.loadHistory();
+		this.loadHighscore();
 
-			this.clockInterval = setInterval( () => {
-				this.#clock += 1;
-			}, 1000);
-			this.drawInterval = setInterval( () => {
-				this.update();
-				this.draw();
-			}, 30);
-			this.fallInterval = setInterval( () => {
-				this.brick[0].fall();
-			}, 700);
-		}
+		// If gameover sound is playing, stop it
+		sound[4].pause();
+		sound[4].currentTime = 0;
+
+		this.clockInterval = setInterval( () => {
+			this.#clock += 1; // Thời gian trò chơi thêm 1s
+		}, 1000);
+		this.drawInterval = setInterval( () => {
+			this.update(); // Gọi hàm cập nhật
+			this.draw(); // Gọi hàm vẽ các đối tượng
+		}, 1000 / 60);
+		this.fallInterval = setInterval( () => {
+			this.brick[0].fall(); // Khối gạch hiện tại rơi 1 ô
+		}, 700);
 	}
-
+	
 	End() {
-		if( this.isRunning) {
-			this.board = null;
-			clearInterval(this.fallInterval);
-			this.brick = null;
-			clearInterval(this.drawInterval);
-			this.isRunning = false;
-			clearInterval(this.clockInterval);
+		this.isRunning = false;
+		// if the game is pausing, unpause it before
+		if( this.isPause ) {
+			this.unPause();
+			this.draw();
+		}
 
-			// Draw Scoreboard
-			this.ct.restore();
-			this.ct.globalAlpha = 0.5;
-			this.ct.fillStyle = 'black';
-			this.ct.fillRect(0, 0, 600, 600);
-			this.ct.fillStyle = 'brown';
-			this.ct.fillRect(0, 210, 300, 180);
-			this.ct.globalAlpha = 1.0;
-			this.ct.beginPath();
-			this.ct.moveTo(0,210);
-			this.ct.lineTo(300,210);
-			this.ct.moveTo(0, 390);
-			this.ct.lineTo(300,390);
-			this.ct.lineWidth = 10;
-			this.ct.strokeStyle = 'red';
-			this.ct.stroke();
-			this.drawText('GAME OVER', 30, 20, 180, 'red', true, 8, 'black');
+		// play sound
+		sound[4].play();
 
-			// Draw Score
-			this.ct.restore();
-			this.drawText('SCORE: ', 20, 30, 250, 'white');
-			this.drawText(this.#score, 20, 160, 250, 'white', true, 5);
-			this.drawText('LINE : ', 20, 30, 310, 'white');
-			this.drawText(this.#line, 20, 160, 310, 'white', true, 5);
-			this.drawText('CLOCK: ', 20, 30, 370, 'white');
-			this.drawText(toHHMMSS(this.#clock), 20, 160, 370, 'white', true, 5);
-			this.drawText("'Enter' for", 15, 60, 420, 'white',);
-			this.drawText('NEW GAME', 20, 70, 450, 'white', true, 5);
+		// erase atrribute
+		clearInterval(this.fallInterval);
+		clearInterval(this.drawInterval);
+		clearInterval(this.clockInterval);
+		this.board = null;
+		this.brick = null;
+		
+		// Draw Scoreboard
+		this.ct.restore();
+		this.ct.globalAlpha = 0.5;
+		this.ct.fillStyle = 'black';
+		this.ct.fillRect(0, 0, 600, 600);
+		this.ct.fillStyle = 'brown';
+		this.ct.fillRect(0, 210, 300, 180);
+		this.ct.globalAlpha = 1.0;
+		this.ct.beginPath();
+		this.ct.moveTo(0,210);
+		this.ct.lineTo(300,210);
+		this.ct.moveTo(0, 390);
+		this.ct.lineTo(300,390);
+		this.ct.lineWidth = 10;
+		this.ct.strokeStyle = 'red';
+		this.ct.stroke();
+		this.drawText('GAME OVER', 30, 20, 180, 'red', true, 8, 'black');
 
-			// get Day Time
-			if(this.#score != 0) {
-				let today = new Date();
-				let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-				let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-				let dateTime = date+'\n'+time;
+		// Draw Score
+		this.ct.restore();
+		this.drawText('SCORE: ', 20, 30, 250, 'white');
+		this.drawText(this.#score, 20, 160, 250, 'white', true, 5);
+		this.drawText('LINE : ', 20, 30, 310, 'white');
+		this.drawText(this.#line, 20, 160, 310, 'white', true, 5);
+		this.drawText('CLOCK: ', 20, 30, 370, 'white');
+		this.drawText(toHHMMSS(this.#clock), 20, 160, 370, 'white', true, 5);
+		this.drawText("'Enter' for", 15, 60, 420, 'white',);
+		this.drawText('NEW GAME', 20, 70, 450, 'white', true, 5);
 
-				// Save Score
-				let data = {
-					"time"  : dateTime,
-					"name" : this.playerName,
-					"score" : this.#score,
-					"clock" : toHHMMSS(this.#clock)
-				}
+		// get Day Time
+		if(this.#score != 0) {
+			let today = new Date();
+			let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			let dateTime = date+'\n'+time;
 
-				this.history.unshift(data);
-				setLocalStorage('highscore', this.history);
+			// Save Score
+			let data = {
+				"time"  : dateTime,
+				"name" : this.playerName,
+				"score" : this.#score,
+				"clock" : toHHMMSS(this.#clock)
 			}
+
+			this.history.unshift(data);
+			setLocalStorage('highscore', this.history);
 		}
 	}
 

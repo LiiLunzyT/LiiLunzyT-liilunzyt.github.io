@@ -60,7 +60,8 @@ var sound = [
 	new Audio('sound/fall.wav'),
 	new Audio('sound/clear.wav'),
 	new Audio('sound/rotate.wav'),
-	new Audio('sound/move.wav')
+	new Audio('sound/move.wav'),
+	new Audio('sound/gameover.wav'),
 ];
 
 sound.forEach( (s) => {

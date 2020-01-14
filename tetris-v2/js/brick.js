@@ -7,13 +7,14 @@ class Brick {
 		this.color = null;
 		this.s_color = null;
 		this.isStop = null;
+		this.isFastMove = null;
 
 		this.type = null;
 		this.shape = null;
 		this.dir = null;
 		this.col = null;
 		this.row = null;
-		this.haveFall = null;
+		this.haveMove = null;
 
 		this.nextBrick = null;
 		this.init();
@@ -28,10 +29,11 @@ class Brick {
 		this.shape = [];
 		this.dir = 0;
 		this.isStop = false;
+		this.isFastMove = false;
 
 		this.col = 3;
 		this.row = 1;
-		this.haveFall = 0;
+		this.haveMove = 0;
 
 		this.createShape();
 		this.createDots();
@@ -59,6 +61,10 @@ class Brick {
 		this.s_color = S_COLOR[r];
 	}
 
+	canMove() {
+		return !this.isStop && !this.isFastMove;
+	}
+
 	canRotate() {
 		let newDir = this.dir + 1;
 		if(newDir == 4) newDir = 0;
@@ -84,10 +90,11 @@ class Brick {
 	}
 
 	rotate() {
-		if(this.canRotate() && !this.isStop) {
+		if(this.canRotate() && this.canMove()) {
 			sound[3].play();
 			this.dots = [];
 			this.dir++;
+			this.haveMove++;
 			if(this.dir == 4) this.dir = 0;
 			this.shape = this.type[this.dir];
 			this.createDots();
@@ -122,12 +129,13 @@ class Brick {
 	}
 
 	moveLeft() {
-		if( this.canMoveLeft() && !this.isStop) {
+		if( this.canMoveLeft() && this.canMove()) {
 			sound[2].play();
 			this.dots.forEach( (dot) => {
 				dot.moveLeft();
 			});
 			this.col--;
+			this.haveMove++;
 			this.updateShadow();
 		}
 	}
@@ -141,12 +149,13 @@ class Brick {
 	}
 
 	moveRight() {
-		if( this.canMoveRight() && !this.isStop) {
+		if( this.canMoveRight() && this.canMove()) {
 			sound[2].play();
 			this.dots.forEach( (dot) => {
 				dot.moveRight();
 			});
 			this.col++;
+			this.haveMove++;
 			this.updateShadow()
 		}
 	}
@@ -166,12 +175,12 @@ class Brick {
 				dot.fall();
 			}); 
 			this.row++;
-			this.haveFall++;
+			this.haveMove++;
 			this.updateShadow();
 			return true;
 		}
 		else {
-			if(this.haveFall == 0) return this.game.End();
+			if(this.haveMove == 0) return this.game.End();
 			sound[0].play();
 
 			this.game.board.addBrick(this.dots);
@@ -182,7 +191,14 @@ class Brick {
 	}
 
 	instantFall() {
-		if(this.fall() && !this.isStop) return this.instantFall();
+		if(this.fall() ) {
+			return setTimeout( () => {
+				this.instantFall();
+				this.isFastMove = true;
+			}, 1000 / 100);
+		} else {
+			this.isFastMove = false;
+		}
 	}
 
 	Pause() {

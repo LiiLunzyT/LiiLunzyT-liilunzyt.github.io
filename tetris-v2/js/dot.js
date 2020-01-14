@@ -43,7 +43,7 @@ class Dot {
 	}
 
 	draw(x_offset = 0, y_offset = 0) {
-		this.game.ct.save();
+		this.game.ct.restore();
 		// get position
 		let x = (this.col + x_offset) * SIZE;
 		let y = (this.row + y_offset - 4) * SIZE;
@@ -52,10 +52,7 @@ class Dot {
 		this.game.ct.strokeStyle = 'black';
 		this.game.ct.strokeRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
 		// draw box
-
 		this.game.ct.fillStyle = this.color;
 		this.game.ct.fillRect(x + 3, y + 3, SIZE - 6, SIZE - 6);
-
-		this.game.ct.restore();
 	}
 }
