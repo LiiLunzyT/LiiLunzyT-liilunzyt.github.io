@@ -310,6 +310,7 @@ class Game {
 			this.#clock += 1;
 		}, 1000);
 		this.drawInterval = setInterval( () => {
+			this.update();
 			this.draw();
 		}, 50);
 		this.fallInterval = setInterval( () => {
