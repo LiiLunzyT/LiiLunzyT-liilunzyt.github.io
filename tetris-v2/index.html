@@ -2,102 +2,118 @@
 <html>
 <head>
 	<title>Tetris HTML</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
 </head>
 <body>
-	<canvas id="game-canvas"></canvas>
-	<button id="btn-hide" value="hide" onclick="hideGuide()" onfocus="this.blur();">&raquo;</button>
-	<div id="game-info">
-		<div class="tab">
-			<button class="tablinks active" onclick="openTab(event, 'game-progress')">Tiến độ</button>
-			<button class="tablinks" onclick="openTab(event, 'game-guide')">Hướng dẫn</button>
-			<button class="tablinks" onclick="openTab(event, 'game-highscore')">Bảng điểm</button>
-			<button class="tablinks" onclick="openTab(event, 'game-history')">Lịch sử</button>
-		</div>
-		<div id="game-progress" class="tabcontent">
-			<table>
-				<tr>
-					<th>CÔNG VIỆC</th>
-					<th>TIẾN ĐỘ</th>
-				</tr>
-				<tr>
-					<td>Chức năng cơ bản</td>
-					<td style="color: green">100%</td>
-				</tr>
-				<tr>
-					<td>Đồ hoạ</td>
-					<td style="color: green">100%</td>
-				</tr>
-				<tr>
-					<td>Âm thanh</td>
-					<td style="color: green">100%</td>
-				</tr>
-				<tr>
-					<td>Hiện khối gạch tiếp theo</td>
-					<td style="color: green">Hoàn thành</td>
-				</tr>
-				<tr>
-					<td>Hiển thị điểm, số dòng</td>
-					<td style="color: green">Hoàn thành</td>
-				</tr>
-				<tr>
-					<td>Phím điều khiển</td>
-					<td style="color: green">Hoàn thành</td>
-				</tr>
-				<tr>
-					<td>Đổ bóng khối gạch</td>
-					<td style="color: green">Hoàn thành</td>
-				</tr>
-				<tr>
-					<td>Lưu điểm của người chơi</td>
-					<td style="color: green">Hoàn thành</td>
-				</tr>
-				<tr">
-					<td style="border-top: 1px dashed white;">TỔNG KẾT</td>
-					<td style="color: green; border-top: 1px dashed white;">Hoàn thành</td>
-				</tr">
-			</table>
-		</div>
-		<div id="game-guide" class="tabcontent">
-			<p>
-				Phím ENTER 		 : Bắt đầu trò chơi <br>
-				Phím Lên  		 : Xoay khối gạch <br>
-				Phím xuống 		 : Tăng tốc rơi <br>
-				Phím Trái/ Phải : Di chuyển khối gạnh qua trái/phải <br>
-				Phím SPACE		 : Khối gạch rơi lập tức <br>
-				Phím P			 : Tạm dừng/Tiếp tục trò chơi <br>
-				Phím E			 : Kết thúc trò chơi
-			</p>
-		</div>
-		<div id="game-highscore" class="tabcontent score-table">
-			<table>
-				<thead>
+	<div id="container">
+		<canvas id="game-canvas"></canvas>
+		<button id="btn-hide" value="hide" onclick="hideGuide()" onfocus="this.blur();">&raquo;</button>
+		<div id="game-info">
+			<div class="tab">
+				<button class="tablinks active" onclick="openTab(event, 'game-progress')">Tiến độ</button>
+				<button class="tablinks" onclick="openTab(event, 'game-guide')">Hướng dẫn</button>
+				<button class="tablinks" onclick="openTab(event, 'game-highscore')">Bảng điểm</button>
+				<button class="tablinks" onclick="openTab(event, 'game-history')">Lịch sử</button>
+			</div>
+			<div id="game-progress" class="tabcontent">
+				<table>
 					<tr>
-						<th>TOP</th>
-						<th>TIME</th>
-						<th>NAME</th>
-						<th>SCORE</th>
-						<th>CLOCK</th>
+						<th>CÔNG VIỆC</th>
+						<th>TIẾN ĐỘ</th>
 					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</div>
-		<div id="game-history" class="tabcontent score-table">
-			<table>
-				<thead>
 					<tr>
-						<th>#</th>
-						<th>TIME</th>
-						<th>NAME</th>
-						<th>SCORE</th>
-						<th>CLOCK</th>
+						<td>Chức năng cơ bản</td>
+						<td style="color: green">100%</td>
 					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-			<button id="erase-history">Xoá Lịch sử</button>
+					<tr>
+						<td>Đồ hoạ</td>
+						<td style="color: green">100%</td>
+					</tr>
+					<tr>
+						<td>Âm thanh</td>
+						<td style="color: green">100%</td>
+					</tr>
+					<tr>
+						<td>Hiện khối gạch tiếp theo</td>
+						<td style="color: green">Hoàn thành</td>
+					</tr>
+					<tr>
+						<td>Hiển thị điểm, số dòng</td>
+						<td style="color: green">Hoàn thành</td>
+					</tr>
+					<tr>
+						<td>Phím điều khiển</td>
+						<td style="color: green">Hoàn thành</td>
+					</tr>
+					<tr>
+						<td>Đổ bóng khối gạch</td>
+						<td style="color: green">Hoàn thành</td>
+					</tr>
+					<tr>
+						<td>Lưu điểm của người chơi</td>
+						<td style="color: green">Hoàn thành</td>
+					</tr>
+					<tr">
+						<td style="border-top: 1px dashed white;">TỔNG KẾT</td>
+						<td style="color: green; border-top: 1px dashed white;">Hoàn thành</td>
+					</tr">
+				</table>
+			</div>
+			<div id="game-guide" class="tabcontent">
+				<p>
+					Phím ENTER 		 : Bắt đầu trò chơi <br>
+					Phím Lên  		 : Xoay khối gạch <br>
+					Phím xuống 		 : Tăng tốc rơi <br>
+					Phím Trái/ Phải : Di chuyển khối gạnh qua trái/phải <br>
+					Phím SPACE		 : Khối gạch rơi lập tức <br>
+					Phím P			 : Tạm dừng/Tiếp tục trò chơi <br>
+					Phím E			 : Kết thúc trò chơi
+				</p>
+			</div>
+			<div id="game-highscore" class="tabcontent score-table">
+				<table>
+					<thead>
+						<tr>
+							<th>TOP</th>
+							<th>TIME</th>
+							<th>NAME</th>
+							<th>SCORE</th>
+							<th>CLOCK</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<div id="game-history" class="tabcontent score-table">
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>TIME</th>
+							<th>NAME</th>
+							<th>SCORE</th>
+							<th>CLOCK</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<button id="erase-history">Xoá Lịch sử</button>
+			</div>
+		</div>
+		<div id="control-btn">
+			<div id="game-btn">
+				<button class="btn" onclick="game.gameControl(K_ENTER)">Start</button>
+				<button class="btn" onclick="game.gameControl(K_P)">Pause</button class="btn">
+				<button class="btn" onclick="game.gameControl(K_E)">End</button class="btn">
+			</div>
+			<div id="move-btn">
+				<button class="btn" onclick="game.gameControl(K_LEFT)">Left</button>
+				<button class="btn" onclick="game.gameControl(K_RIGHT)">Right</button class="btn">
+				<button class="btn" onclick="game.gameControl(K_UP)">Rotate</button class="btn">
+				<button class="btn" onclick="game.gameControl(K_DOWN)">Fast fall</button class="btn">
+			</div>
 		</div>
 	</div>
 </body>

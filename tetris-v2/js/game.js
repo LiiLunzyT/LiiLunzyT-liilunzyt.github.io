@@ -27,15 +27,6 @@ class Game {
 	}
 
 	init() {
-		// Get player name
-		let dfl_name = "noname";
-		let data = [];
-		if (checkLocalStorage('highscore') ) {
-			data = loadLocalStorage('highscore');
-			dfl_name = data[0]['name'];
-		}
-		this.playerName = window.prompt("Nhập tên người chơi (tối đa 10 ký tự)",dfl_name);
-
 		// Get canvas
 		this.cv = document.getElementById('game-canvas');
 		this.ct = this.cv.getContext('2d');
@@ -46,8 +37,19 @@ class Game {
 		this.bg.src = './img/bg-1.jpg';
 
 		// set size game-canvas
+		this.cv.style.width = "600px";
+		this.cv.style.height = "600px";
 		this.cv.width = WIDTH;
 		this.cv.height = HEIGHT;
+
+		// Get player name
+		let dfl_name = "noname";
+		let data = [];
+		if (checkLocalStorage('highscore') ) {
+			data = loadLocalStorage('highscore');
+			dfl_name = data[0]['name'];
+		}
+		this.playerName = window.prompt("Nhập tên người chơi (tối đa 10 ký tự)",dfl_name);
 
 		// Set variables
 		this.isRunning = false;
@@ -70,6 +72,22 @@ class Game {
 
 		// add Key listener
 		this.readKeyPress();
+	}
+
+	resizeScreen() {
+		let k = 1;
+		let screenW = screen.width;
+		let screenH = screen.height;
+		if(screenH < screenW) {
+			this.cv.height = screenH;
+			this.ct.width = screenH;
+			k = screenH / HEIGHT;
+		} else {
+			this.cv.height = screenW;
+			this.ct.width = screenW;
+			k = screenW / WIDTH;
+		}
+		this.ct.scale(k, k);
 	}
 
 	setContext() {
@@ -182,12 +200,17 @@ class Game {
 
 	readKeyPress() {
 		document.addEventListener('keydown', (event) => {
-			if( !this.isRunning ) { // while game isn't running
-				switch(event.code) {
+			this.gameControl(event.code);
+		});
+	}
+
+	gameControl(code) {
+		if( !this.isRunning ) { // while game isn't running
+				switch(code) {
 					case K_ENTER: this.Start(); break;
 				}
 			} else {
-				switch(event.code) { // while game is running
+				switch(code) { // while game is running
 					case K_UP: case K_K: 
 						this.brick[0].rotate(); break;
 					case K_DOWN: case K_S: 
@@ -203,7 +226,6 @@ class Game {
 					case K_E: this.End(); break;
 				}
 			}
-		});
 	}
 
 	Start() {
