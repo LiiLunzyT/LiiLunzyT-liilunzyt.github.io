@@ -70,7 +70,7 @@ body {
 	justify-content: space-around;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1000px) {
 	#btn-hide, #game-info {
 		display: none;
 	}
@@ -145,7 +145,7 @@ s
 }
 
 #game-highscore {
-	height: 520px;
+	height: 550px;
 	width: 100%;
 }
 
@@ -169,9 +169,8 @@ s
 	white-space: pre;
 }
 
-
 #game-history {
-	height: 500px;
+	height: 550px;
 	width: 100%;
 	overflow-y: scroll;
 }
