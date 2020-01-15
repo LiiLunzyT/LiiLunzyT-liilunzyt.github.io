@@ -173,6 +173,7 @@ s
 	height: 550px;
 	width: 100%;
 	overflow-y: scroll;
+	transition: 1s;;
 }
 
 #game-history table {
