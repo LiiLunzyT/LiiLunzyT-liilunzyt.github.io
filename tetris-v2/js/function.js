@@ -5,10 +5,12 @@ function hideGuide() {
     if (b.value == "hide") {
         b.value = "not-hide";
         d.style.marginLeft = 0;
+        d.children[4].style.overflowY = "scroll";
         b.style.transform = "rotate(180deg)";
     } else {
         b.value = "hide";
         d.style.marginLeft = "-500px";
+        d.children[4].style.overflowY = "hidden";
         b.style.transform = "rotate(0deg)";
     }
 }
