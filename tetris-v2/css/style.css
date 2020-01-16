@@ -48,7 +48,8 @@ body {
 	height: 100%;
 	margin: 0 10px;
 	margin-left: -500px;
-	transition: 0.5s margin;
+	transition: 0.5s;
+	z-index: 0;
 }
 
 #control-btn {
@@ -173,7 +174,7 @@ s
 	height: 550px;
 	width: 100%;
 	overflow-y: scroll;
-	transition: 1s;;
+	transition: 0.5s;;
 }
 
 #game-history table {

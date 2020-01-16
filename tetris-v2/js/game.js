@@ -350,7 +350,7 @@ class Game {
 		this.drawInterval = setInterval( () => {
 			this.update();
 			this.draw();
-		}, 50);
+		}, 1000/60);
 		this.fallInterval = setInterval( () => {
 			this.brick[0].fall();
 		}, 700);

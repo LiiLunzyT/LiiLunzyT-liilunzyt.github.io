@@ -4,13 +4,13 @@ function hideGuide() {
     d.blur();
     if (b.value == "hide") {
         b.value = "not-hide";
-        d.style.marginLeft = 0;
-        d.children[4].style.overflowY = "scroll";
+        d.style.opacity = "1";
+        d.style.marginLeft = "0px";
         b.style.transform = "rotate(180deg)";
     } else {
         b.value = "hide";
+        d.style.opacity = "0";
         d.style.marginLeft = "-500px";
-        d.children[4].style.overflowY = "hidden";
         b.style.transform = "rotate(0deg)";
     }
 }
