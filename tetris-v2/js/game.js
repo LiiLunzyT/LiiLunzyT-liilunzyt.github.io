@@ -487,4 +487,7 @@ class Game {
 	}
 }
 
-var game = new Game();
+window.onload = function() {
+	var game = new Game();
+}
+

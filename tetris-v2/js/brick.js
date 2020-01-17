@@ -182,7 +182,6 @@ class Brick {
 		else {
 			if(this.haveMove == 0) return this.game.End();
 			sound[0].play();
-
 			this.game.board.addBrick(this.dots);
 			this.game.brick.shift();
 			this.game.brick.push(new Brick(this.game));
@@ -195,7 +194,7 @@ class Brick {
 			return setTimeout( () => {
 				this.instantFall();
 				this.isFastMove = true;
-			}, 1000 / 100);
+			}, 1000 / 60);
 		} else {
 			this.isFastMove = false;
 		}
