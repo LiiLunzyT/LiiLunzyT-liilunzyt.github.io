@@ -17,14 +17,14 @@ body {
   align-items: center;
   text-align: center;
   padding: 30px;
-  background: #75485E;
-  color: #DFCC74;
+  background: green;
+  color: white;
 }
 .login {
   position: absolute;
   right: 30px;
-  background-color: #51A3A3;
-  color: white;
+  background-color: #C3E991;
+  color: green;
   outline: none;
   cursor: pointer;
   border: none;
@@ -46,11 +46,10 @@ body {
 
 .timetable {
   position: relative;
-  margin-top: 20px;
-  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   padding-left: 50px;
+  padding-bottom: 20px;
   overflow: hidden;
 }
 
@@ -64,7 +63,7 @@ body {
 }
 
 .timetable-section {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 .timetable-section::before {
   position: absolute;
@@ -192,4 +191,13 @@ body {
 .submit {
   margin-top: 10px;
   width: 100%;
+}
+
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
