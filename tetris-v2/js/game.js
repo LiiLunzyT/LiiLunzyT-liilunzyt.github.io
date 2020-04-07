@@ -98,11 +98,20 @@ class Game {
 	};
 
 	loadFont() {
-		this.font = new FontFace('press_start_2pregular', 'url(./css/pressstart2p.woff2)');
-		this.font.load().then((font) => {
+		let FONT = new FontFace('game-font', 'url(./css/pressstart2p.woff2)');
+		FONT.load().then((font) => {
 			document.fonts.add(font);
 			console.log('Font loaded');
-		});		
+		});	
+		this.font = 'game-font';
+		/*
+		let FONT = new FontFace('press_start_2pregular', 'url(./css/pressstart2p.woff2)');
+		FONT.load().then((font) => {
+			document.fonts.add(font);
+			console.log('Font loaded');
+		});	
+		this.font = "press_start_2pregular";
+		*/
 	}
 
 	loadHistory() {
@@ -358,7 +367,7 @@ class Game {
 	}
 
 	drawText(text, size, x, y, color = 'white', stroke = false, lWidth = 1, s_color = 'black') {
-		this.ct.font = size + "px press_start_2pregular";
+		this.ct.font = size + "px " + this.font;
 		if(stroke) {
 			this.ct.lineWidth = lWidth;
 			this.ct.strokeStyle = s_color;
@@ -403,7 +412,7 @@ class Game {
 		// clear board
 		this.ct.restore();
 		this.ct.clearRect(0, 0, WIDTH, HEIGHT);
-		this.ct.fillStyle = 'rgba(128, 128, 128, 0.9)';
+		this.ct.fillStyle = 'rgba(0, 0, 0)';
 		this.ct.fillRect(0, 0, WIDTH, HEIGHT);
 		this.ct.drawImage(this.bg, 300, 0);
 		this.ct.fillStyle = 'black';
@@ -454,8 +463,8 @@ class Game {
 		this.ct.lineWidth = 8;
 		this.ct.strokeRect(360, 60, 6 * SIZE, 6 * SIZE);
 		this.ct.lineWidth = 1;
-		this.drawCaro(0,4,COLS,ROWS-4);
-		this.drawCaro(12,6, 6, 6);
+		//this.drawCaro(0,4,COLS,ROWS-4);
+		//this.drawCaro(12,6, 6, 6);
 
 		// Draaw Player Name
 		this.drawText('Playername', 20, 350, 520, 'blue', true, 3, 'white');

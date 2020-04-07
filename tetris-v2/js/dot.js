@@ -49,10 +49,12 @@ class Dot {
 		let y = (this.row + y_offset - 4) * SIZE;
 
 		// draw outline
-		this.game.ct.strokeStyle = 'black';
+		this.game.ct.strokeStyle = 'gray';
 		this.game.ct.strokeRect(x + 2, y + 2, SIZE - 4, SIZE - 4);
+		
 		// draw box
 		this.game.ct.fillStyle = this.color;
 		this.game.ct.fillRect(x + 3, y + 3, SIZE - 6, SIZE - 6);
+
 	}
 }

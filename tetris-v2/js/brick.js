@@ -185,6 +185,7 @@ class Brick {
 			this.game.board.addBrick(this.dots);
 			this.game.brick.shift();
 			this.game.brick.push(new Brick(this.game));
+			console.log('.');
 			return false;
 		}
 	}
@@ -194,7 +195,7 @@ class Brick {
 			return setTimeout( () => {
 				this.instantFall();
 				this.isFastMove = true;
-			}, 1000 / 60);
+			}, 1000 / 100);
 		} else {
 			this.isFastMove = false;
 		}

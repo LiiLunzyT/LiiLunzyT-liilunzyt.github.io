@@ -26,6 +26,18 @@ const HEIGHT = 600;
 const ROWS = 24;
 const COLS = 10;
 
+// Sprite
+const sp_brick = {
+	'red' : "./img/brick-yellow.bmp",
+	'green' : "./img/brick-yellow.bmp",
+	'blue' : "./img/brick-yellow.bmp",
+	'purple' : "./img/brick-yellow.bmp",
+	'yellow' : "./img/brick-yellow.bmp",
+	'orange' : "./img/brick-yellow.bmp",
+	'brown' : "./img/brick-yellow.bmp"
+}
+
+
 // COLOR
 const B_COLOR = [
 	'rgba(255, 0  , 0  , 1.0)',	// 0 - RED
