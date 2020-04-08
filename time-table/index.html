@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>NTU Thời khoá biểu</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://kit.fontawesome.com/6c9fd23990.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="header">
+    <div class="logo">
+      <img src="./logo.png" alt="">
+    </div>
     <h1>Thời khoá biểu</h1>
-    <button class="login" id="login">Đăng nhập</button>
+    <button class="login" id="login"><i class="fas fa-sign-in-alt"></i></button>
   </div>
   <div class="container" id="container">
     <p id="notice" class="notice">Bạn chưa đăng nhập, mời đăng nhập</p>
-    <div class="timetable" id="timetable">
-    </div>
   </div>
   <div class="modal-container" id="modal">
     <div class="modal">
-      <button class="close" id="close">X</button>
+      <button class="close" id="close"><i class="fas fa-times"></i></button>
       <div class="modal-head">
-        <h1>Đăng nhập</h1>
+        <h2>Đăng nhập</h3>
       </div>
       <div class="modal-content">
+        <div class="error" id="error"></div>
         <div class="form">
           <div class="form-control">
             <label for="username"><small>MSSV</small></label>

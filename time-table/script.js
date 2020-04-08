@@ -1,3 +1,5 @@
+const container = document.getElementById('container')
+const error = document.getElementById('error')
 const notice = document.getElementById('notice')
 const login = document.getElementById('login')
 const submit = document.getElementById('submit')
@@ -25,13 +27,13 @@ function loadDataToDOM(data) {
     })
   })
   console.log(table)
-  timetable.innerHTML = `${
+  container.innerHTML = `<div class="timetable">${
     table.map( (date) => `
       <div class="timetable-section">
         <p class="date">Thứ ${table.indexOf(date)}</p>
         <div class="course-list">
         ${date.length > 0 ? date.map( course => `
-          <div class="course">
+          <div class="course" tabindex="0">
             <div class="name">${course.name}</div>
               <div class="room">Phòng học: ${course.room}</div>
               <div class="teacher">Giáo viên: ${course.teacher}</div>
@@ -47,27 +49,35 @@ function loadDataToDOM(data) {
         </div>
       </div>
     `).join('')
-  }`
+  }</div>`
 }
 
 async function getData() {
   const username = document.getElementById('username')
   const password = document.getElementById('password')
+  if(username.value == "" || password.value == "") {
+    error.innerText = "Mssv/mật khẩu không thể để trống"
+    return
+  }
+  error.innerHTML = `<div class="loader"></div>`
   await fetch(`https://ntu-time-table.herokuapp.com/api/${username.value}-${password.value}`)
   .then(res => res.json())
   .then(body => {
-    console.log(body)
-    localStorage.setItem('timetable', JSON.stringify(body))
-    loadDataToDOM(body)
-  })
-  .then( () => {
-    modal.style.display = 'none'
+    if(body.length == 0) {
+      error.innerText = "Sai tài khoản/mật khẩu"
+    } else {
+      localStorage.setItem('timetable', JSON.stringify(body))
+      loadDataToDOM(body)
+      modal.style.display = 'none'
+    }
   })
 }
 login.addEventListener('click', () => {
   modal.style.display = 'block'
 })
 close.addEventListener('click', () => {
+  error.innerHTML = ""
+  error.innerText = ""
   modal.style.display = 'none'
 })
 submit.addEventListener('click', getData)

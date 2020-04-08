@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -7,24 +8,33 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  background-color: #C3E991;
+  background-color: #788DEC;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-geometric.png");
 }
 
 .header {
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   text-align: center;
   padding: 30px;
-  background: green;
+  background: #162569;
   color: white;
+  font-family: 'Pacifico', cursive;
+  font-size: 1.5em;
+  letter-spacing: 8px;
+}
+.logo {
+  width: 100px;
+  width: 100px;
+}
+.logo img {
+  width: 100%;
 }
 .login {
-  position: absolute;
-  right: 30px;
-  background-color: #C3E991;
-  color: green;
+  background-color: white;
+  color: #162569;
   outline: none;
   cursor: pointer;
   border: none;
@@ -39,6 +49,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 50px;
 }
 .notice {
   margin-top: 20px;
@@ -59,7 +70,7 @@ body {
   margin-left: -20px;
   width: 5px;
   height: 105%;
-  background-color: green;
+  background-color: #162569;
 }
 
 .timetable-section {
@@ -68,11 +79,11 @@ body {
 .timetable-section::before {
   position: absolute;
   content: '';
-  margin-left: -31px;
+  margin-left: -32px;
   background-color: white;
   width: 21px;
   height: 21px;
-  border: 3px solid green;
+  border: 4px solid #162569;
   border-radius: 999px;
 }
 
@@ -83,7 +94,7 @@ body {
   padding: 5px 10px;
   background-color: white;
   border-radius: 10px;
-  border: 3px solid green;
+  border: 3px solid #162569;
   width: 100px;
   text-align: center;
   font-weight: bold;
@@ -96,7 +107,7 @@ body {
   transform: translate(-100%, -50%);
   height: 5px;
   width: 30px;
-  background-color: green;
+  background-color: #162569;
 }
 .course-list {
   display: flex;
@@ -126,7 +137,7 @@ body {
   border: 1px solid black;
   border-radius: 10px;
 }
-.course:hover .extend-info {
+.course:focus .extend-info {
   visibility: visible;
   z-index: 1;
 }
@@ -147,14 +158,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
   width: 300px;
-  height: 200px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   overflow: hidden;
 }
 .modal .close {
@@ -172,15 +181,24 @@ body {
   font-size: 15px;
 }
 .modal-head {
-  padding: 8px;
+  padding: 20px;
   width: 100%;
   text-align: center;
   color: white;
-  background-color: dodgerblue
+  background-color: #162569
 }
 .modal-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 10px 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.form {
+  width: 100%;
 }
 .form-control {
   margin-top: 5px;
@@ -188,16 +206,46 @@ body {
   flex-direction: column;
   width: 100%;
 }
+.form-control input {
+  padding: 5px;
+  border-radius: 5px;
+}
 .submit {
-  margin-top: 10px;
+  margin: 10px 0;
   width: 100%;
+  padding: 5px;
+}
+.error {
+  color: red;
 }
 
 .footer {
-  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #162569;
   color: white;
-  height: 100px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #3498db;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
