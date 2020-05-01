@@ -87,14 +87,16 @@ a {
     background-color: rgba(0, 0, 0, 0.5);
     width: 90%;
     position: absolute;
-    left: 50%;
+    left: 5%;
     top: 150px;
-    transform: translateX(-50%);
-    display: none;
     flex-direction: column;
+    transition: transform 200ms ease;
+    transform-origin: top;
+    transform: scaleY(0)
   }
   .nav__menu.active {
-    display: flex;
+    transform: scaleY(1);
+    margin: 0 auto;
   }
   .nav__toggle {
     display: block;
@@ -155,12 +157,24 @@ a {
   flex-wrap: wrap;
 }
 .populars__book {
-  height: 400px;
   width: 24%;
   background-color: white;
+  border-radius: 5px;
+  box-shadow: -1px -1px 5px 0px rgba(0,0,0,0.3);
+  text-align: center;
+}
+.populars__book:hover img {
+  transform: translateY(-20px) scale(1.05);
+}
+.populars__book img {
+  width: 100%;
+  height: auto;
+  box-shadow: -1px -1px 5px 0px rgba(0,0,0,0.3);
+  transition: transform 200ms ease;
 }
 @media only screen and (max-width: 1200px) {
   .populars__book {
+    margin: 10px 0;
     width: 49%;
   }
 }
@@ -168,4 +182,16 @@ a {
   .populars__book {
     width: 100%;
   }
+}
+
+.populars__book__title {
+  font-size: 1.5rem;
+}
+.populars__book__author {
+  font-size: 1.0rem;
+  color: gray;
+}
+.populars__book__price {
+  font-size: 1.7rem;
+  color: gray;
 }
