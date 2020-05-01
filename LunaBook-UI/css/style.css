@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  display: block;
+  outline: none;
+  text-decoration: none;
+}
+.header {
+  position: relative;
+}
+.nav {
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 100px;
+}
+.nav__logo {
+  font-size: 3rem;
+}
+.nav__logo a {
+  color: white;
+}
+.nav__menu {
+  display: flex;
+}
+.nav__menu__item {
+  display: inline-block;
+  text-align: center;
+}
+.nav__menu__item a {
+  position: relative;
+  color: white;
+  font-size: 20px;
+  padding: 15px;
+  margin: 0 10px;
+  font-weight: bold;
+}
+.nav__menu__item a::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 3px;
+  background-color: dodgerblue;
+  bottom: 0;
+  left: 0;
+  transform: scale(0);
+  transition: transform 200ms ease;
+}
+.nav__menu__item a:hover::after {
+  transform: scale(1);
+}
+.nav__toggle {
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+}
+.nav__cart a{
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 768px) {
+  .nav {
+    height: 150px;
+  }
+  .nav__logo {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+  }
+  .nav__menu {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 90%;
+    position: absolute;
+    left: 50%;
+    top: 150px;
+    transform: translateX(-50%);
+    display: none;
+    flex-direction: column;
+  }
+  .nav__menu.active {
+    display: flex;
+  }
+  .nav__toggle {
+    display: block;
+    position: absolute;
+    left: 20px;
+    top: 100px;
+  }
+  .nav__cart {
+    position: absolute;
+    right: 20px;
+    top: 100px;
+  }
+}
+
+.banner {
+  width: 100%;
+  height: 750px;
+}
+.banner img {
+  min-width: 100%;
+  height: 750px;
+}
+
+.searchbar {
+  padding: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+.searchbar input, .searchbar button {
+  margin: 10px;
+  outline: none;
+  border: none;
+  border-radius: 10px;;
+  padding: 15px;
+  font-size: 20px;
+  background-color: #edf3f4;
+  width: 100%;
+}
+
+.searchbar button {
+  border-radius: 999px;;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 1000px) {
+  .searchbar {
+    flex-wrap: wrap;
+  }
+}
+
+.populars {
+  padding: 50px;
+  background-color: #edf3f4;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.populars__book {
+  height: 400px;
+  width: 24%;
+  background-color: white;
+}
+@media only screen and (max-width: 1200px) {
+  .populars__book {
+    width: 49%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .populars__book {
+    width: 100%;
+  }
+}
