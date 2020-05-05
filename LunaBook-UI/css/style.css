@@ -8,6 +8,7 @@
 body {
   font-family: 'Lato', sans-serif;
   overflow-x: hidden;
+  position: relative;
 }
 
 a {
@@ -18,6 +19,14 @@ a {
 .header {
   position: relative;
 }
+
+@media only screen and (max-width: 1200px) {
+  .nav, .searchbar, .populars {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
 .nav {
   position: absolute;
   height: 100px;
@@ -26,6 +35,7 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 10px 100px;
+  z-index: 2;
 }
 .nav__logo {
   font-size: 3rem;
@@ -113,27 +123,29 @@ a {
 
 .banner {
   width: 100%;
-  height: 750px;
+  height: 700px;
+  overflow: hidden;
 }
 .banner img {
+  position: relative;
   min-width: 100%;
-  height: 750px;
+  height: 100%;
 }
 
 .searchbar {
-  padding: 50px;
+  padding: 20px 100px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 .searchbar input, .searchbar button {
-  margin: 10px;
   outline: none;
   border: none;
   border-radius: 10px;;
   padding: 15px;
   font-size: 20px;
   background-color: #edf3f4;
-  width: 100%;
+  width: 24%;
 }
 
 .searchbar button {
@@ -143,55 +155,110 @@ a {
   font-weight: bold;
 }
 
-@media only screen and (max-width: 1000px) {
-  .searchbar {
-    flex-wrap: wrap;
+@media only screen and (max-width: 1368px) {
+  .searchbar input, .searchbar button {
+    width: 49%;
+    margin: 10px 0;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .searchbar input, .searchbar button {
+    width: 100%;
   }
 }
 
 .populars {
-  padding: 50px;
+  padding: 50px 100px;
   background-color: #edf3f4;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.populars__book {
+.book {
   width: 24%;
   background-color: white;
   border-radius: 5px;
   box-shadow: -1px -1px 5px 0px rgba(0,0,0,0.3);
-  text-align: center;
 }
-.populars__book:hover img {
+.book__body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.book__info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.book:hover img {
   transform: translateY(-20px) scale(1.05);
 }
-.populars__book img {
+.book img {
   width: 100%;
   height: auto;
   box-shadow: -1px -1px 5px 0px rgba(0,0,0,0.3);
   transition: transform 200ms ease;
 }
 @media only screen and (max-width: 1200px) {
-  .populars__book {
+  .book {
     margin: 10px 0;
     width: 49%;
   }
 }
 @media only screen and (max-width: 768px) {
-  .populars__book {
+  .book {
     width: 100%;
   }
 }
-
-.populars__book__title {
+.book__title {
   font-size: 1.5rem;
 }
-.populars__book__author {
+.book__author {
   font-size: 1.0rem;
   color: gray;
 }
-.populars__book__price {
+.book__price {
   font-size: 1.7rem;
   color: gray;
+}
+.book__control {
+  margin: 20px 0;
+  height: 45px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid gray;
+  overflow: hidden;
+  margin-left: -200%;
+  transition: margin 200ms linear;
+}
+.book:hover .book__control {
+  margin-left: 0;
+}
+.goDetail, .addToCart {
+  padding: 9px;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  color: grey;
+  transition: 200ms ease;
+}
+.goDetail {
+  border-right: 1px solid gray;
+}
+.goDetail:hover, .addToCart:hover {
+  background-color: black;
+  color: white;
+}
+
+@media only screen and (max-width: 1200px) {
+  .nav, .searchbar, .populars {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
